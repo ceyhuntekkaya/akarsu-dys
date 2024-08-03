@@ -1,0 +1,18 @@
+{
+  "login": {
+    "welcome": "Hoşgeldiniz"
+  },
+  "general": {
+    "project": "AKARSU"
+  },
+  "menu": {
+    "main": "Ana Sayfa",
+    "search": "Evrak Arama",
+    "archive": "Arşiv",
+    "admin": "Yönetim",
+    "change-password": "Şifre Değiştirme",
+    "document-scan": "Tarama",
+    "projects": "Projeler",
+    "text": "Metin"
+  }
+}
