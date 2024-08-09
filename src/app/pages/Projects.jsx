@@ -3,7 +3,6 @@ import {useApi} from "../../service/useApi";
 import {useContext, useEffect} from "react";
 import {AppContext} from "../../context/AppContextProvider";
 import {UserContext} from "../../context/UserContextProvider";
-import TableMyDocuments from "./tables/TableMyDocuments";
 
 export default function Projects() {
   const [data, setData] = useApi(null);
@@ -16,7 +15,6 @@ export default function Projects() {
 
   useEffect(() => {
     if (data === null) {
-      console.log(userInformation)
       setData("my-documents", userInformation?.id).then(r => null)
     }
 
@@ -33,9 +31,7 @@ export default function Projects() {
               <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
                 <input type="text" className="form-control" id="exampleInputEmail1"
                        aria-describedby="emailHelp" placeholder="Search"/>
-                {
-                  data ?  <TableMyDocuments data={data}/> : null
-                }
+               ceyhun
 
               </div>
             </div>

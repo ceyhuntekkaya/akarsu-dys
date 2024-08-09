@@ -15,7 +15,6 @@ export default function Login() {
 
     useEffect(() => {
         if (auth) {
-            console.log("LOGIN TRUE")
             setAppState("COMPLETED");
         }
 

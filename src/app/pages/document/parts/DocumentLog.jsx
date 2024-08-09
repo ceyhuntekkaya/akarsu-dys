@@ -10,6 +10,7 @@ export default function DocumentLog(props) {
                     <th scope="col">Personel</th>
                     <th scope="col">İşlem</th>
                     <th scope="col">IP</th>
+                    <th scope="col">Not</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,6 +23,7 @@ export default function DocumentLog(props) {
                                     <td>{log.user.name}</td>
                                     <td>{log.transaction}</td>
                                     <td>{log.ip}</td>
+                                    <td>{log.notu}</td>
                                 </tr>
 
                             </>

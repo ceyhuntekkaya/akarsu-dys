@@ -11,25 +11,14 @@ export const useAuth = () => {
 
     const handleLogin = async (params) => {
         setResult(false);
-
-
-        console.log(`${config.api.invokeUrl}/user/login`)
-        console.log(params)
         const response = await Request(
             "post",
             `${config.api.invokeUrl}/user/login`, params
         );
-
-        console.log(response)
-
-
         if (response) {
             setUserInformation(response)
-            console.log(response)
             setResult(true);
         }
-
-
         /*
             try {
               const response = await axios.post(

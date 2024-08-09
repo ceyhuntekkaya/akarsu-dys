@@ -1,64 +1,77 @@
 import * as React from "react";
-import {useApi} from "../../service/useApi";
+import ActiveDocuments from "./parts/ActiveDocuments";
 import {useContext, useEffect, useState} from "react";
+import DocumentDetail from "./parts/DocumentTabs";
+import {useApi} from "../../service/useApi";
 import {AppContext} from "../../context/AppContextProvider";
 import {UserContext} from "../../context/UserContextProvider";
-import TableMyDocuments from "./tables/TableMyDocuments";
 
 export default function MyDocuments() {
+    const [selectedDocument, setSelectedDocument] = useState({});
+    const [projects, setProjects] = useState({});
+
+
     const [data, setData] = useApi(null);
     const appContext = useContext(AppContext);
-    const [selectedDocument, setSelectedDocument] = useState(-1);
     const userContext = useContext(UserContext);
     const {userInformation} = userContext;
-
 
     useEffect(() => {
         if (data === null) {
             setData("my-documents", userInformation?.id).then(r => null)
         }
-
+        findProjects()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const findProjects = () => {
+        const projectList = []
+        if (data && Array.isArray(data)) {
+            data.map((d) => {
+                const projectName = d.document.project.name
+                const projectId = d.document.project.id
+                const check = projectList.find(p => p.id === projectId)
+                if (!check) {
+                    const addProject = {id: projectId, name: projectName}
+                    projectList.push(addProject)
+                }
+            })
+            setProjects()
+        }
 
-    const DataTable = () => {
-        return (
-            <div className="col-12 p-1">
-                <div className="card shadow p-0">
-
-                    <div className="card-body">
-                        <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
-                            <input type="text" className="form-control" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="Search"/>
-                            {
-                                data ?  <TableMyDocuments data={data}
-                                                          selectedDocument={selectedDocument}
-                                                          setSelectedDocument={setSelectedDocument}/> : null
-                            }
-
-                        </div>
-                    </div>
-                    <div className="card-footer text-muted">
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        )
     }
 
 
     return (
         <>
             <div className="row">
-                <div className="card border-0 shadow rounded">
-                    <h5 className="card-header">
-                        Evraklarım
-                    </h5>
+                <div className="col-8 p-1">
+                    <div className="card shadow">
+                        <h5 className="card-header">institution_list</h5>
+                        <div className="card-body">
+
+                            <ActiveDocuments selectedDocument={selectedDocument}
+                                             setSelectedDocument={setSelectedDocument}
+                                             data={data}
+                                             type={"my-documents"}/>
+                        </div>
+                        <div className="card-footer text-muted">
+                            <a href="#" className="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="row w-100 py-2">
-                <DataTable/>
+                <div className="col-4 p-1">
+                    <div className="card shadow">
+                        <h5 className="card-header">Evrak Detayları</h5>
+                        <div className="card-body">
+                            <DocumentDetail data={selectedDocument} projects={projects}/>
+                        </div>
+                        <div className="card-footer text-muted">
+                            <a href="#" className="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </>

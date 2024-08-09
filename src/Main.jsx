@@ -22,7 +22,6 @@ export default function Main() {
 
 
     useEffect(() => {
-        console.log("BURASI")
         const retrieveAndSetLocalStorageUser = async () => {
             const localStorageUser = localStorage.getItem("user");
             if (!localStorageUser) {
@@ -108,8 +107,6 @@ export default function Main() {
 
 
     const RenderMainContent = () => {
-
-        console.log("Ceyhun", appState)
         if (appState === "INITIALIZING") {
             return (
                 <div className="h-100 flex-1 d-flex justify-content-center align-items-center">
