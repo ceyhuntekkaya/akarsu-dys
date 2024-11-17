@@ -42,8 +42,8 @@ export default function DocumentSend(props) {
             transactionId: 0,
             isCopy: true
         }
-        console.log(documentSentDto)
-        setDocumentSend("sendDocument", documentSentDto).then(r => null);
+
+        setDocumentSend("documentSend", documentSentDto).then(r => null);
     }
 
     useEffect(() => {

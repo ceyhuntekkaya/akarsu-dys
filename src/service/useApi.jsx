@@ -70,6 +70,7 @@ export const useApi = () => {
             `${config.api.invokeUrl}/project/auth/${data}`
         );
         if (response) {
+            console.log(response)
             setResult(response);
         }
     };
@@ -107,6 +108,9 @@ export const useApi = () => {
 
 
     const documentSend = async (data) => {
+
+        console.log(`${config.api.invokeUrl}/document/send/`)
+        console.log(data)
         const response = await Request(
             "post",
             `${config.api.invokeUrl}/document/send/`, data
@@ -130,6 +134,7 @@ export const useApi = () => {
 
 
     const handleChange = async (type, data) => {
+
         if (type === "login") {
             await login(data);
         } else if (type === "my-documents") {

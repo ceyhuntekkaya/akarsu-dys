@@ -117,9 +117,7 @@ export default function Admin() {
 
                         <DataTable/>
                     </div>
-                    <div className="card-footer text-muted">
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
+
                 </div>
             </div>
             <div className="col-4 p-1">
@@ -128,9 +126,7 @@ export default function Admin() {
                     <div className="card-body">
                         <DetailForm/>
                     </div>
-                    <div className="card-footer text-muted">
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
+
                 </div>
 
             </div>

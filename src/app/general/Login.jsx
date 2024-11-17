@@ -4,7 +4,6 @@ import {useContext, useEffect} from "react";
 import {useAuth} from "../../service/useAuth";
 import Logo from "../../assets/logo.png";
 import {AppContext} from "../../context/AppContextProvider";
-import i18next from '../../i18n'
 
 export default function Login() {
     const appContext = useContext(AppContext);
@@ -46,12 +45,12 @@ export default function Login() {
                         </div>
                         <div className="w-100 d-flex justify-content-center">
                             <h2 className="h5 mb-4">
-                                {i18next.t('general.project')}
+                               Proje
                             </h2>
                         </div>
                         <form>
                             <div className="alert alert-info">
-                                {i18next.t('login.welcome')}
+                               Giriş
                             </div>
                             <FormInput
                                 name="username"

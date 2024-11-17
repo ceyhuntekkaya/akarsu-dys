@@ -4,7 +4,7 @@ export default function DashboardSuperAdmin() {
     const DataTable = () => {
         return (
             <section className="intro">
-                <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
+                <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa"}}>
                     <div className="mask d-flex align-items-center h-100">
                         <div className="row justify-content-center">
                             <div className="row">
@@ -17,9 +17,9 @@ export default function DashboardSuperAdmin() {
                                 <div className="card">
                                     <div className="card-body p-0">
                                         <div className="table-responsive table-scroll"
-                                             style={{position: "relative;"}}>
+                                             style={{position: "relative"}}>
                                             <table className="table table-striped mb-0">
-                                                <thead style={{backgroundColor: "#002d72;"}}>
+                                                <thead style={{backgroundColor: "#002d72"}}>
                                                 <tr>
                                                     <th scope="col">institution_name</th>
                                                     <th scope="col">institution_type</th>
@@ -102,9 +102,7 @@ export default function DashboardSuperAdmin() {
 
                         <DataTable/>
                     </div>
-                    <div className="card-footer text-muted">
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
+
                 </div>
             </div>
             <div className="col-4 p-1">
@@ -113,9 +111,7 @@ export default function DashboardSuperAdmin() {
                     <div className="card-body">
                         <DetailForm/>
                     </div>
-                    <div className="card-footer text-muted">
-                        <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
+
                 </div>
 
             </div>

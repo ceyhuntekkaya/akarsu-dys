@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import i18next from "../../i18n";
 
 export default function MenuItem(props) {
   let location = useLocation();
@@ -12,7 +11,7 @@ export default function MenuItem(props) {
       >
         <span>
           {<props.icon />}
-          <span className="sidebar-text"> {i18next.t(`menu.${props.name}`)}</span>
+          <span className="sidebar-text"> proje</span>
         </span>
         {props.count ? (
           <span className="badge badge-sm bg-danger badge-pill notification-count">

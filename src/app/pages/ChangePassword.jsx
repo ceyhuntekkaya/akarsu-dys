@@ -9,7 +9,7 @@ export default function ChangePassword (){
 
     return (
         <section className="intro">
-            <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
+            <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa"}}>
                 <div className="mask align-items-center h-100">
                     <div className="row justify-content-center">
                         <div className="row">

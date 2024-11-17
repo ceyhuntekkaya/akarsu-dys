@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import i18next from "i18next";
 
 export default function ShortMenu() {
   const [roleType, setRoleType] = useState("");
@@ -16,12 +15,12 @@ export default function ShortMenu() {
         <img
           className="navbar-brand-dark"
           src="./assets/img/brand/light.svg"
-          alt={i18next.t('general.project')}
+          alt="logo"
         />
         <img
           className="navbar-brand-light"
           src="./assets/img/brand/dark.svg"
-          alt={i18next.t('general.project')}
+          aalt="logo"
         />
       </Link>
       <div className="d-flex align-items-center">

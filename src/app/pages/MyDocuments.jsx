@@ -47,7 +47,7 @@ export default function MyDocuments() {
             <div className="row">
                 <div className="col-8 p-1">
                     <div className="card shadow">
-                        <h5 className="card-header">institution_list</h5>
+                        <h5 className="card-header">Evraklarım</h5>
                         <div className="card-body">
 
                             <ActiveDocuments selectedDocument={selectedDocument}
@@ -55,9 +55,7 @@ export default function MyDocuments() {
                                              data={data}
                                              type={"my-documents"}/>
                         </div>
-                        <div className="card-footer text-muted">
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
+
                     </div>
                 </div>
                 <div className="col-4 p-1">
@@ -71,9 +69,7 @@ export default function MyDocuments() {
                             }
 
                         </div>
-                        <div className="card-footer text-muted">
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
-                        </div>
+
                     </div>
 
                 </div>

@@ -1,5 +1,12 @@
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap);
 
+body {
+    font-family: "Quicksand", "sans-serif", "modern";
+}
+
+
+
+
 .datepicker {
     display: none
 }
@@ -375,7 +382,7 @@ input[type="range"]::-webkit-slider-thumb {
     --bs-gray-700: #374151;
     --bs-gray-800: #1F2937;
     --bs-gray-900: #111827;
-    --bs-font-sans-serif: "Inter", sans-serif;
+    --bs-font-sans-serif: "Quicksand", sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0))
 }
@@ -394,7 +401,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 body {
     margin: 0;
-    font-family: var(--bs-font-sans-serif);
+    font-family_2: var(--bs-font-sans-serif);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -601,7 +608,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: var(--bs-font-monospace);
+    font-family_2: var(--bs-font-monospace);
     font-size: 1em;
     direction: ltr;
     unicode-bidi: bidi-override
@@ -8871,7 +8878,7 @@ fieldset:disabled .btn {
     z-index: 1070;
     display: block;
     margin: 2rem;
-    font-family: var(--bs-font-sans-serif);
+    font-family_2: var(--bs-font-sans-serif);
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -8996,7 +9003,7 @@ fieldset:disabled .btn {
     z-index: 1060;
     display: block;
     max-width: 276px;
-    font-family: var(--bs-font-sans-serif);
+    font-family_2: var(--bs-font-sans-serif);
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -11938,7 +11945,7 @@ fieldset:disabled .btn {
 }
 
 .font-monospace {
-    font-family: var(--bs-font-monospace) !important
+    font-family_2: var(--bs-font-monospace) !important
 }
 
 .fs-1 {
@@ -27905,7 +27912,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: Inter, sans-serif;
+    font-family: "Quicksand", sans-serif;
     font-weight: 500
 }
 
@@ -27913,7 +27920,7 @@ h6 {
 ol li,
 p,
 ul li {
-    font-family: var(--bs-font-sans-serif);
+    font-family_2: var(--bs-font-sans-serif);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.6
@@ -28020,7 +28027,7 @@ a:hover {
 code[class*=language-],
 pre[class*=language-] {
     text-shadow: none;
-    font-family: var(--bs-font-sans-serif);
+    font-family_2: var(--bs-font-sans-serif);
     font-weight: 500
 }
 

@@ -3,7 +3,6 @@ import MenuItem from "./MenuItem";
 import { adminRoutes } from "../../config/route";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import i18next from "i18next";
 
 export default function MainMenu() {
   let location = useLocation();
@@ -44,9 +43,9 @@ export default function MainMenu() {
               <li className="nav-item mb-3">
                 <Link to="/" className="nav-link d-flex align-items-center">
                   <span className="sidebar-icon">
-                    <img src={logo} height="20" width="20" alt={i18next.t('general.project')} />
+                    <img src={logo} height="20" width="20" alt="logo" />
                   </span>
-                  <span className="mt-1 sidebar-text"> {i18next.t('general.project')}</span>
+                  <span className="mt-1 sidebar-text"> proje</span>
                 </Link>
               </li>
               {currentRole

@@ -69,6 +69,17 @@ export default function DocumentDetail(props) {
     const onObjectValueChangeEvent = (prop1, prop2, value) => {
         setValues({...values, [prop1]: {[prop2]: value}})
     }
+    const onTimeValueChangeEvent = (prop, value) => {
+        const date = new Date(value);
+        const formattedDate = date.toLocaleDateString('en-EN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        const epochMilliseconds = formattedDate.getTime();
+        console.log(epochMilliseconds)
+        setValues({...values, [prop]: epochMilliseconds})
+    }
 
     return (
         <>
@@ -76,13 +87,12 @@ export default function DocumentDetail(props) {
                 <DocumentFile files={files}/>
             </div>
             <div className="row">
-                <form>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">PROJE</label>
+                    <div className="col-12 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">PROJE</label>
 
                         <select className="form-control"
                                 onChange={(e) => onObjectValueChangeEvent("project", "id", e.target.value)}>
-                            <option value=""></option>
+                            <option selected value=""></option>
                             {
                                 projects ? projects.map((project, index) => {
                                     return (
@@ -94,24 +104,27 @@ export default function DocumentDetail(props) {
                             }
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">TARİH</label>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">TARİH</label>
                         <input className="form-control" type="text"
+                               onChange={(e) => onTimeValueChangeEvent("documentDate", e.target.value)}
                                value={new Date(values.documentDate).toLocaleDateString("tr")}/>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">SAYI</label>
-                        <input className="form-control" type="text" value={values.number}/>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">SAYI</label>
+                        <input className="form-control" type="text" value={values.number}
+                               onChange={(e) => onValueChangeEvent("number", e.target.value)}/>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">KONU</label>
-                        <input className="form-control" type="text" value={values.subject}/>
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">KONU</label>
+                        <input className="form-control" type="text" value={values.subject}
+                               onChange={(e) => onValueChangeEvent("subject", e.target.value)}/>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">TÜR</label>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">TÜR</label>
                         <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("type", e.target.value)}>
-                            <option value=""></option>
+                            <option selected value=""></option>
                             {
                                 documentTypes ? documentTypes.map((documentType, index) => {
                                     return (
@@ -124,11 +137,11 @@ export default function DocumentDetail(props) {
                             }
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">GRUP</label>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">GRUP</label>
                         <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("group", e.target.value)}>
-                            <option value=""></option>
+                            <option selected value=""></option>
                             {
                                 groups ? groups.map((group, index) => {
                                     return (
@@ -140,16 +153,17 @@ export default function DocumentDetail(props) {
                             }
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">KAYIT TARİHİ</label>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">KAYIT TARİHİ</label>
                         <input className="form-control" type="text"
-                               value={new Date(values.recordDate).toLocaleDateString("tr")}/>
+                               value={new Date(values.recordDate).toLocaleDateString("tr")}
+                               onChange={(e) => onValueChangeEvent("recordDate", e.target.value)}/>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">YETKİ DÜZEYİ</label>
+                    <div className="col-6 form-group">
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">YETKİ DÜZEYİ</label>
                         <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("authorizationLevel", e.target.value)}>
-                            <option value=""></option>
+                            <option selected value=""></option>
                             {
                                 auths ? auths.map((auth, index) => {
                                     return (
@@ -162,10 +176,10 @@ export default function DocumentDetail(props) {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">SORUMLUSU</label>
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">SORUMLUSU</label>
                         <select className="form-control"
                                 onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
-                            <option value=""></option>
+                            <option selected value=""></option>
                             {
                                 staffs ? staffs.map((owner, index) => {
                                     return (
@@ -178,14 +192,14 @@ export default function DocumentDetail(props) {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">NOT</label>
+                        <label htmlFor="exampleInputPassword1" className="mb-0 mt-2">NOT</label>
                         <textarea value={values.notu} rows="5" cols="60" className="form-control" id="note-input"
-                                  placeholder="Not"/>
+                                  placeholder="Not"
+                                  onChange={(e) => onValueChangeEvent("notu", e.target.value)}/>
                     </div>
-                </form>
             </div>
             <div className="row mb-4">
-                <button type="submit" className="btn btn-primary">Evrak Sil</button>
+                <button type="submit" className="btn btn-primary mt-3">Evrak Güncelle</button>
             </div>
         </>
     )

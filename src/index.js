@@ -11,8 +11,10 @@ import ReactModal from "react-modal";
 import UserContextProvider from "./context/UserContextProvider";
 import Main from "./Main";
 import { NotificationContainer } from "react-notifications";
-import './i18n';
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import { createRoot } from 'react-dom/client';
+
+
+const root = createRoot(document.getElementById("root"));
 ReactModal.setAppElement("#root");
 
 

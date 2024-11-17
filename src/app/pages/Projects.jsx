@@ -28,16 +28,14 @@ export default function Projects() {
           <div className="card shadow p-0">
             <h5 className="card-header">Evrak Listesi</h5>
             <div className="card-body">
-              <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
+              <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa"}}>
                 <input type="text" className="form-control" id="exampleInputEmail1"
                        aria-describedby="emailHelp" placeholder="Search"/>
                ceyhun
 
               </div>
             </div>
-            <div className="card-footer text-muted">
-              <a href="#" className="btn btn-primary">Go somewhere</a>
-            </div>
+
           </div>
         </div>
     )
@@ -63,9 +61,7 @@ export default function Projects() {
                        placeholder="Password"/>
               </div>
             </div>
-            <div className="card-footer text-muted">
-              <a href="#" className="btn btn-primary">Go somewhere</a>
-            </div>
+
           </div>
         </div>
     )
