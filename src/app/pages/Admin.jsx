@@ -1,73 +1,59 @@
+import {useEffect, useState} from "react";
+import {useApi} from "../../service/useApi";
+import * as React from "react";
+
 export default function Admin() {
+    const [staffs, setStaffs] = useApi(null);
+    const [selectedStaff, setSelectedStaff] = useState({});
+
+    useEffect(() => {
+        setStaffs("staff", 0).then(r => null)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const eventHandler = (staff) => {
+        setSelectedStaff(staff)
+    };
+
     const DataTable = () => {
         return (
-            <section className="intro">
-                <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
-                    <div className="mask d-flex align-items-center h-100">
-                        <div className="row justify-content-center">
-                            <div className="row">
-
-                                <div className="form-group pb-2">
-                                    <input type="text" className="form-control" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="Search"/>
-                                </div>
-
-                                <div className="card">
-                                    <div className="card-body p-0">
-                                        <div className="table-responsive table-scroll"
-                                             style={{position: "relative;"}}>
-                                            <table className="table table-striped mb-0">
-                                                <thead style={{backgroundColor: "#002d72;"}}>
-                                                <tr>
-                                                    <th scope="col">institution_name</th>
-                                                    <th scope="col">institution_type</th>
-                                                    <th scope="col">student_count</th>
-                                                    <th scope="col">package</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>Like a butterfly</td>
-                                                    <td>Boxing</td>
-                                                    <td>9:00 AM - 11:00 AM</td>
-                                                    <td>Aaron Chapman</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mind &amp; Body</td>
-                                                    <td>Yoga</td>
-                                                    <td>8:00 AM - 9:00 AM</td>
-                                                    <td>Adam Stewart</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Crit Cardio</td>
-                                                    <td>Gym</td>
-                                                    <td>9:00 AM - 10:00 AM</td>
-                                                    <td>Aaron Chapman</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Wheel Pose Full Posture</td>
-                                                    <td>Yoga</td>
-                                                    <td>7:00 AM - 8:30 AM</td>
-                                                    <td>Donna Wilson</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Playful Dancer's Flow</td>
-                                                    <td>Yoga</td>
-                                                    <td>8:00 AM - 9:00 AM</td>
-                                                    <td>Donna Wilson</td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="row">
+                <div className="table table-responsive table-hover">
+                    <table className="table table-striped mb-0">
+                        <thead>
+                        <tr>
+                            <th scope="col">PERSONEL</th>
+                            <th scope="col">BİRİM</th>
+                            <th scope="col">YETKİ</th>
+                            <th scope="col">DURUM</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            staffs && Array.isArray(staffs) ?
+                                staffs?.map((staff, key) => {
+                                    return (
+                                        <tr key={key}
+                                            style={{backgroundColor: selectedStaff && selectedStaff.id ? selectedStaff.id === staff?.id ? "#ddd" : "" : ""}}
+                                            onClick={(e) => eventHandler(staff)}>
+                                            <th scope="row">{staff.name}</th>
+                                            <td>{staff.unit}</td>
+                                            <td>{staff.authority}</td>
+                                            <td>{staff.status ? "Aktif" : "Arşiv"}</td>
+                                        </tr>
+                                    )
+                                })
+                                : null
+                        }
+                        </tbody>
+                    </table>
                 </div>
-            </section>
+            </div>
         )
+    }
+
+    const onValueChangeEvent = (prop, value) => {
+        setStaffs({...staffs, [prop]: value}).then(r => null)
     }
 
     const DetailForm = () => {
@@ -75,17 +61,48 @@ export default function Admin() {
         return (
             <>
                 <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="text" className="form-control" id="exampleInputEmail1"
-                           aria-describedby="emailHelp" placeholder="Enter email"/>
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with
-                        anyone else.</small>
+                    <label htmlFor="exampleInputPassword1">PERSONEL</label>
+                    <input className="form-control" type="text" value={selectedStaff.name}
+                           onChange={(e) => onValueChangeEvent("name", e.target.value)}/>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="text" className="form-control" id="exampleInputPassword1"
-                           placeholder="Password"/>
+                <div className="row">
+                    <div className="col">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputPassword1">BİRİM</label>
+                            <input className="form-control" type="text" value={selectedStaff.unit}/>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputPassword1">YETKİ</label>
+                            <input className="form-control" type="text" value={selectedStaff.authority}/>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputPassword1">DURUM</label>
+                            <input className="form-control" type="text" value={selectedStaff.status}/>
+                        </div>
+                    </div>
                 </div>
+
+
+                <div className="row">
+                    <div className="col">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputPassword1">KULLANICI ADI</label>
+                            <input className="form-control" type="text" value={selectedStaff.username}/>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label htmlFor="exampleInputPassword1">ŞİFRE</label>
+                            <input className="form-control" type="text" value={selectedStaff.password}/>
+                        </div>
+                    </div>
+                </div>
+
+
 
 
             </>
@@ -95,7 +112,7 @@ export default function Admin() {
         <div className="row">
             <div className="col-8 p-1">
                 <div className="card shadow">
-                    <h5 className="card-header">institution_list</h5>
+                    <h5 className="card-header">PERSONEL LİSTESİ</h5>
                     <div className="card-body">
 
                         <DataTable/>
@@ -107,7 +124,7 @@ export default function Admin() {
             </div>
             <div className="col-4 p-1">
                 <div className="card shadow">
-                    <h5 className="card-header">Featured</h5>
+                    <h5 className="card-header">Personel Bilgi Fişi</h5>
                     <div className="card-body">
                         <DetailForm/>
                     </div>

@@ -37,7 +37,7 @@ export default function DocumentDetail(props) {
     const [documentTypes, setDocumentTypes] = useApi(null);
     const [groups, setGroups] = useApi(null);
     const [auths, setAuths] = useApi(null);
-    const [owners, setOwners] = useApi(null);
+
 
     const userContext = useContext(UserContext);
     const {userInformation} = userContext;
@@ -57,7 +57,7 @@ export default function DocumentDetail(props) {
             setDocumentTypes("documentTypes").then(r => null)
             setGroups("groups").then(r => null)
             setAuths("auths").then(r => null)
-            setOwners("owners", 1).then(r => null)
+
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -167,7 +167,7 @@ export default function DocumentDetail(props) {
                                 onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
                             <option value=""></option>
                             {
-                                owners ? owners.map((owner, index) => {
+                                staffs ? staffs.map((owner, index) => {
                                     return (
                                         values.owner?.id === owner.id ?
                                             <option selected key={index} value={owner.id}>{owner.name}</option> :

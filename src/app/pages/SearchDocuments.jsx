@@ -20,7 +20,8 @@ const baseValue = {
     archive: false
 }
 
-export default function SearchDocuments() {
+export default function SearchDocuments(props) {
+    const {archive} = props;
     const [staffs, setStaffs] = useApi(null);
     const [projectList, setProjectList] = useApi(null);
     const [data, setData] = useState({...baseValue})
@@ -31,6 +32,13 @@ export default function SearchDocuments() {
     const [searchProject, setSearchProject] = useApi(null);
     const [selectedDocument, setSelectedDocument] = useState({});
     const [projects, setProjects] = useState({});
+
+
+    const clearDateData = (e) => {
+        e.preventDefault()
+        setData({...data, endAt: "", beginAt: ""})
+    }
+
 
     useEffect(() => {
 
@@ -45,8 +53,13 @@ export default function SearchDocuments() {
     const findEvents = (e) => {
         e.preventDefault()
         console.log(data)
-        setSearchProject("searchProject", data).then(r => null)
+        const searchData = data;
+        if (archive) {
+            searchData.archive = true
+        }
+        setSearchProject("searchProject", searchData).then(r => null)
         findProjects()
+
     }
 
     const onValueChangeEvent = (prop, value) => {
@@ -68,28 +81,38 @@ export default function SearchDocuments() {
             setProjects()
         }
     }
-//value={new Date(data.endAt).toLocaleDateString("tr")}/>
+
+
     const searchPanel = () => {
         return (
-            <div className="form-group pb-2">
-                <form>
-                    <div className="">
-                        <label>Tarih</label>
-                        <input className="" type="checkbox"
-                               value={data.hasDate} onChange={(e) => onValueChangeEvent("hasDate", e.target.checked)}/>
-                        <input className="" type="date" onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
+            <div className="container mb-2">
+                <div className="row">
+                    <div className="col-auto" style={{width: "100px"}}>
+                        Tarih
+                    </div>
+                    <div className="col-auto" style={{width: "2px"}}>
+                        <button className="form-check-input" style={{width: "20px", height: "36px"}}
+                                onClick={(e) => clearDateData(e)}>X
+                        </button>
+                    </div>
+                    <div className="col-auto" style={{width: "150px"}}>
+                        <input className="form-control" type="date"
+                               onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
                                value={data.beginAt}/>
-                        <input className="" type="date" onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
+                    </div>
+                    <div className="col-auto" style={{width: "150px"}}>
+                        <input className="form-control" type="date"
+                               onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
                                value={data.endAt}/>
                     </div>
-                    <div className="">
-                        <label>Proje</label>
-                        <input className="" type="checkbox"
-                               value={data.hasProject}
-                               onChange={(e) => onValueChangeEvent("hasProject", e.target.checked)}/>
-                        <select className=""
+                    <div className="col-auto" style={{width: "50px"}}>
+                        Proje
+                    </div>
+
+                    <div className="col">
+                        <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("projectId", e.target.value)}>
-                            <option value=""></option>
+                            <option value="0"></option>
                             {
                                 projectList ? projectList.map((project, index) => {
                                     return (
@@ -101,9 +124,15 @@ export default function SearchDocuments() {
                             }
                         </select>
                     </div>
-                    <div className="">
-                        <label>Evrak Türü</label>
-                        <select className=""
+                </div>
+
+
+                <div className="row mt-2">
+                    <div className="col-auto" style={{width: "100px"}}>
+                        Tür:
+                    </div>
+                    <div className="col">
+                        <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("documentType", e.target.value)}>
                             <option value=""></option>
                             {
@@ -117,7 +146,10 @@ export default function SearchDocuments() {
                                 }) : null
                             }
                         </select>
-                        <select className=""
+
+                    </div>
+                    <div className="col">
+                        <select className="form-control"
                                 onChange={(e) => onValueChangeEvent("documentGroup", e.target.value)}>
                             <option value=""></option>
                             {
@@ -132,28 +164,39 @@ export default function SearchDocuments() {
                             }
                         </select>
                     </div>
-                    <div className="">
-                        <label>Sayı</label>
-                        <input className="" type="text"
+                    <div className="col-auto" style={{width: "50px"}}>
+                        Sayı:
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text"
                                onChange={(e) => onValueChangeEvent("documentNumber", e.target.value)}
                                value={data.documentNumber}/>
                     </div>
-                    <div className="">
-                        <label>Konu</label>
-                        <input className="" type="text" onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                    <div className="col-auto" style={{width: "60px"}}>
+                        Konu:
+                    </div>
+                    <div className="col">
+                        <input className="form-control" type="text"
+                               onChange={(e) => onValueChangeEvent("subject", e.target.value)}
                                value={data.subject}/>
                     </div>
-                    <div className="">
+                    <div className="col-auto" style={{width: "70px"}}>
                         <label>Kelime</label>
-                        <input className="" type="text"
+                    </div>
+                    <div className="col-xl-4">
+                        <input className="form-control" type="text"
                                onChange={(e) => onValueChangeEvent("searchWord", e.target.value)}
                                value={data.searchWord}/>
+                    </div>
+                    <div className="col-auto">
                         <button type="submit" className="btn btn-primary" onClick={(e) => findEvents(e)}>Ara</button>
                     </div>
-                </form>
+                </div>
             </div>
         )
     }
+//value={new Date(data.endAt).toLocaleDateString("tr")}/>
+
 
     return (
         <section className="intro">

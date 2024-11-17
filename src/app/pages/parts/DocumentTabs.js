@@ -9,6 +9,7 @@ export default function DocumentTabs(props) {
     const {data, projects} = props;
 
 
+
     const [page, setPage] = useState(0)
     return (
         <div className="px-0">

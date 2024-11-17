@@ -1,34 +1,18 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {useApi} from "../../service/useApi";
+import {UserContext} from "../../context/UserContextProvider";
+import ActiveDocuments from "./parts/ActiveDocuments";
+import DocumentDetail from "./parts/DocumentTabs";
+import * as React from "react";
+import SearchDocuments from "./SearchDocuments";
 
-export default function Archive (){
-    const[data, setData] = useState();
-    useEffect(() => {
 
-    }, []);
+
+export default function Archive() {
+
 
 
     return (
-        <section className="intro">
-            <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa;"}}>
-                <div className="mask align-items-center h-100">
-                    <div className="row justify-content-center">
-                        <div className="row">
-
-                            <div className="form-group pb-2">
-                                <input type="text" className="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp" placeholder="Search"/>
-                            </div>
-
-                            <div className="card">
-                                <div className="card-body p-0">
-                                    Archive
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+       <SearchDocuments archive={true}/>
     )
 }

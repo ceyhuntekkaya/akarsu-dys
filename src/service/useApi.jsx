@@ -39,7 +39,6 @@ export const useApi = () => {
     };
 
 
-
     const documentTypes = async () => {
         const types = [{name: "GELEN EVRAK"}, {name: "GİDEN EVRAK"}]
         setResult(types);
@@ -49,7 +48,10 @@ export const useApi = () => {
         setResult(groups);
     };
     const auths = async () => {
-        const auths = [{id:0, name: "PERSONEL"}, {id:1, name: "PROJE PERSONELİ"}, {id:2, name: "PROJE KOORDİNATÖRÜ"}, {id:1, name: "YÖNETİM"}]
+        const auths = [{id: 0, name: "PERSONEL"}, {id: 1, name: "PROJE PERSONELİ"}, {
+            id: 2,
+            name: "PROJE KOORDİNATÖRÜ"
+        }, {id: 1, name: "YÖNETİM"}]
         setResult(auths);
     };
     const owners = async (data) => {
@@ -76,13 +78,12 @@ export const useApi = () => {
     const searchProject = async (data) => {
         const response = await Request(
             "post",
-            `${config.api.invokeUrl}/document/search/`,data
+            `${config.api.invokeUrl}/document/search/`, data
         );
         if (response) {
             setResult(response);
         }
     };
-
 
 
     const findProjectByActive = async () => {
@@ -105,6 +106,27 @@ export const useApi = () => {
     };
 
 
+    const documentSend = async (data) => {
+        const response = await Request(
+            "post",
+            `${config.api.invokeUrl}/document/send/`, data
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+    const getTransactions = async (documentId) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/document/transaction/${documentId}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
 
 
     const handleChange = async (type, data) => {
@@ -122,14 +144,16 @@ export const useApi = () => {
             await groups();
         } else if (type === "auths") {
             await auths();
-        } else if (type === "owners") {
-            await owners(data);
         } else if (type === "findProjectByAuth") {
             await findProjectByAuth(data);
         } else if (type === "searchProject") {
             await searchProject(data);
         } else if (type === "findProjectByActive") {
             await findProjectByActive();
+        } else if (type === "documentSend") {
+            await documentSend(data);
+        }else if (type === "getTransactions") {
+            await getTransactions(data);
         }
 
     };

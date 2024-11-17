@@ -4,8 +4,8 @@ import * as React from "react";
 export default function ActiveDocuments(props) {
     const {data, selectedDocument, setSelectedDocument, type} = props;
 
-    const eventHandler = (e) => {
-        setSelectedDocument(e)
+    const eventHandler = (document) => {
+        setSelectedDocument(document)
     };
 
 

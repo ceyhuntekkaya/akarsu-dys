@@ -64,7 +64,12 @@ export default function MyDocuments() {
                     <div className="card shadow">
                         <h5 className="card-header">Evrak Detayları</h5>
                         <div className="card-body">
-                            <DocumentDetail data={selectedDocument} projects={projects}/>
+                            {
+                                selectedDocument ?
+                                    <DocumentDetail data={selectedDocument} projects={projects}/>
+                                    : null
+                            }
+
                         </div>
                         <div className="card-footer text-muted">
                             <a href="#" className="btn btn-primary">Go somewhere</a>
