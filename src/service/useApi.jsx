@@ -70,7 +70,6 @@ export const useApi = () => {
             `${config.api.invokeUrl}/project/auth/${data}`
         );
         if (response) {
-            console.log(response)
             setResult(response);
         }
     };
@@ -99,7 +98,7 @@ export const useApi = () => {
     const findProjectByDeActive = async (data) => {
         const response = await Request(
             "get",
-            `${config.api.invokeUrl}/project/active/0`
+            `${config.api.invokeUrl}/project/active/${data}`
         );
         if (response) {
             setResult(response);
@@ -108,9 +107,6 @@ export const useApi = () => {
 
 
     const documentSend = async (data) => {
-
-        console.log(`${config.api.invokeUrl}/document/send/`)
-        console.log(data)
         const response = await Request(
             "post",
             `${config.api.invokeUrl}/document/send/`, data
@@ -119,6 +115,8 @@ export const useApi = () => {
             setResult(response);
         }
     };
+
+
 
 
 
@@ -131,6 +129,56 @@ export const useApi = () => {
             setResult(response);
         }
     };
+
+
+
+
+
+    const findByIdFiles = async (documentId) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/document/document/${documentId}/files/`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+    const findByIdLogs = async (documentId) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/document/document/${documentId}/logs/`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+    const saveDocument = async (document) => {
+        const response = await Request(
+            "post",
+            `${config.api.invokeUrl}/document/`,document
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+
+    const findAllProject = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/project/all/${data}`, data
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
 
 
     const handleChange = async (type, data) => {
@@ -159,7 +207,16 @@ export const useApi = () => {
             await documentSend(data);
         }else if (type === "getTransactions") {
             await getTransactions(data);
+        }else if (type === "findByIdFiles") {
+            await findByIdFiles(data);
+        }else if (type === "findByIdLogs") {
+            await findByIdLogs(data);
+        }else if (type === "saveDocument") {
+            await saveDocument(data);
+        }else if (type === "findAllProject") {
+            await findAllProject(data);
         }
+
 
     };
 

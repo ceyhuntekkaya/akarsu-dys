@@ -20,8 +20,6 @@ export default function DocumentFile(props) {
         console.log("deleteEvent")
     }
 
-    console.log(files)
-
 //  <td className="w-100"><Link to={`https://pdfobject.com/pdf/sample.pdf`} target="_blank"><div className="w-100">{file.name}</div></Link></td>
 
     return (<>

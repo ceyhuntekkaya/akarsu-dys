@@ -9,7 +9,6 @@ export default function ActiveDocuments(props) {
     };
 
 
-
     return (
 
         <div className="row">
@@ -32,13 +31,13 @@ export default function ActiveDocuments(props) {
                                 data?.map((doc, key) => {
                                     return (
                                             <tr key={key}
-                                                style={{backgroundColor: selectedDocument && selectedDocument.document ? selectedDocument.document?.id === doc.document?.id ? "#ddd" : "" : ""}}
+                                                style={{backgroundColor: selectedDocument && selectedDocument.document ? selectedDocument.document?.id === doc.document?.id ? "#999" : "" : ""}}
                                                 onClick={(e) => eventHandler(doc)}>
                                                 <th scope="row">{doc.document?.project?.name}</th>
                                                 <td>{new Date(doc.document?.documentDate).toLocaleDateString("tr")}</td>
                                                 <td>{doc.document?.number}</td>
                                                 <td>{doc.document?.subject}</td>
-                                                <td>{doc.document?.note}</td>
+                                                <td>{doc.document?.note} - {doc.document?.type}</td>
                                             </tr>
                                     )
                                 })
@@ -55,7 +54,7 @@ export default function ActiveDocuments(props) {
                                                 <td>{new Date(doc?.documentDate).toLocaleDateString("tr")}</td>
                                                 <td>{doc?.number}</td>
                                                 <td>{doc?.subject}</td>
-                                                <td>{doc?.note}</td>
+                                                <td>{doc?.note}-{doc?.type}</td>
                                             </tr>
                                     )
                                 })

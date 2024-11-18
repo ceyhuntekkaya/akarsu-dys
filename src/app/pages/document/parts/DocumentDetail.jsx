@@ -77,7 +77,6 @@ export default function DocumentDetail(props) {
             year: 'numeric'
         });
         const epochMilliseconds = formattedDate.getTime();
-        console.log(epochMilliseconds)
         setValues({...values, [prop]: epochMilliseconds})
     }
 

@@ -5,6 +5,19 @@ import * as React from "react";
 export default function Admin() {
     const [staffs, setStaffs] = useApi(null);
     const [selectedStaff, setSelectedStaff] = useState({});
+    const [tableHeight, setTableHeight] = useState('400px');
+
+
+    useEffect(() => {
+        const calculateHeight = () => {
+            const windowHeight = window.innerHeight;
+            const availableHeight = windowHeight - 350;
+            setTableHeight(`${availableHeight}px`);
+        };
+        calculateHeight();
+        window.addEventListener('resize', calculateHeight);
+        return () => window.removeEventListener('resize', calculateHeight);
+    }, []);
 
     useEffect(() => {
         setStaffs("staff", 0).then(r => null)
@@ -14,6 +27,19 @@ export default function Admin() {
     const eventHandler = (staff) => {
         setSelectedStaff(staff)
     };
+
+    const makeAuthorize = (value) => {
+        if (value === 0) {
+            return "Personel"
+        }
+        if (value === 1) {
+            return "Proje Personeli"
+        }
+        if (value === 2) {
+            return "Proje Koordinatörü"
+        }
+        return "Yönetim"
+    }
 
     const DataTable = () => {
         return (
@@ -38,8 +64,8 @@ export default function Admin() {
                                             onClick={(e) => eventHandler(staff)}>
                                             <th scope="row">{staff.name}</th>
                                             <td>{staff.unit}</td>
-                                            <td>{staff.authority}</td>
-                                            <td>{staff.status ? "Aktif" : "Arşiv"}</td>
+                                            <td>{makeAuthorize(staff.authority)}</td>
+                                            <td>{staff.status ? "" : "Arşiv"}</td>
                                         </tr>
                                     )
                                 })
@@ -109,11 +135,13 @@ export default function Admin() {
         )
     }
     return (
-        <div className="row">
+        <div className="row mx-1">
             <div className="col-8 p-1">
                 <div className="card shadow">
                     <h5 className="card-header">PERSONEL LİSTESİ</h5>
-                    <div className="card-body">
+                    <div className="card-body" style={{
+                        height: tableHeight, overflowY: 'auto'
+                    }}>
 
                         <DataTable/>
                     </div>

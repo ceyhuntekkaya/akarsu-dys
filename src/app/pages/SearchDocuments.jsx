@@ -29,10 +29,22 @@ export default function SearchDocuments(props) {
     const userContext = useContext(UserContext);
     const {userInformation} = userContext;
     const [searchProject, setSearchProject] = useApi(null);
-    const [selectedDocument, setSelectedDocument] = useState({});
+    const [selectedDocument, setSelectedDocument] = useState(null);
     const [projects, setProjects] = useState([]);
+    const [tableHeight, setTableHeight] = useState('400px');
+    const [documentFiles, setDocumentFiles] = useApi(null);
+    const [documentLogs, setDocumentLogs] = useApi(null);
 
-
+    useEffect(() => {
+        const calculateHeight = () => {
+            const windowHeight = window.innerHeight;
+            const availableHeight = windowHeight - 600;
+            setTableHeight(`${availableHeight}px`);
+        };
+        calculateHeight();
+        window.addEventListener('resize', calculateHeight);
+        return () => window.removeEventListener('resize', calculateHeight);
+    }, []);
 
     useEffect(() => {
         setData({...data, authority: userInformation.authority})
@@ -42,42 +54,33 @@ export default function SearchDocuments(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        if (selectedDocument) {
+            if (selectedDocument.id) {
+                setDocumentFiles("findByIdFiles", selectedDocument.id).then(r => null)
+                setDocumentLogs("findByIdLogs", selectedDocument.id).then(r => null)
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedDocument]);
+
     const findEvents = (e) => {
         e.preventDefault()
-        console.log(data)
         const searchData = data;
         if (archive) {
             searchData.archive = true
         }
         setSearchProject("searchProject", searchData).then(r => null)
-        findProjects()
     }
 
     const onValueChangeEvent = (prop, value) => {
         setData({...data, [prop]: value})
     }
 
-    const findProjects = () => {
-        const projectList = []
-        if (searchProject && Array.isArray(data)) {
-            searchProject.map((d) => {
-                const projectName = d.document.project.name
-                const projectId = d.document.project.id
-                const check = projectList.find(p => p.id === projectId)
-                if (!check) {
-                    const addProject = {id: projectId, name: projectName}
-                    projectList.push(addProject)
-                }
-            })
-            setProjects(projectList)
-        }
-    }
-
-
     const searchPanel = () => {
         return (
 
-            <div className="card shadow">
+            <div className="card shadow mb-3">
                 <div className="card-body">
                     <div className="row m-2">
                         <div className="col">
@@ -172,48 +175,50 @@ export default function SearchDocuments(props) {
             </div>
         )
     }
-    //value={new Date(data.endAt).toLocaleDateString("tr")}/>
-
 
     return (
-        <section className="intro">
+        <section className="mx-3">
             <div className="bg-image h-100" style={{backgroundColor: "#f5f7fa"}}>
-                <div className="mask align-items-center h-100">
-                    <div className="row justify-content-center">
-                        <div className="row">
+                <div className="row">
+                    {
+                        searchPanel()
+                    }
+                    {
+                        searchProject && Array.isArray(searchProject) ?
+                            <div className="row">
+                                <div className="col-8 p-1">
+                                    <div className="card shadow">
+                                        <h5 className="card-header">Evraklar</h5>
+                                        <div className="card-body" style={{
+                                            height: tableHeight, overflowY: 'auto'
+                                        }}>
 
-                            {
-                                searchPanel()
-                            }
-
-                            {
-                                searchProject && Array.isArray(searchProject) ?
-                                    <div className="row">
-                                        <div className="col-8 p-1">
-                                            <div className="card shadow">
-                                                <h5 className="card-header">Evraklar</h5>
-                                                <div className="card-body">
-
-                                                    <ActiveDocuments selectedDocument={selectedDocument}
-                                                                     setSelectedDocument={setSelectedDocument}
-                                                                     data={searchProject}/>
-                                                </div>
-                                            </div>
+                                            <ActiveDocuments selectedDocument={selectedDocument}
+                                                             setSelectedDocument={setSelectedDocument}
+                                                             data={searchProject}/>
                                         </div>
+                                    </div>
+                                </div>
+                                {
+                                    selectedDocument ?
                                         <div className="col-4 p-1">
                                             <div className="card shadow">
                                                 <h5 className="card-header">Evrak Detayları</h5>
                                                 <div className="card-body">
-                                                    <DocumentDetail data={{"document": selectedDocument}}
+                                                    <DocumentDetail data={{
+                                                        "document": selectedDocument,
+                                                        "files": documentFiles,
+                                                        "logs": documentLogs
+                                                    }}
                                                                     projects={projects}/>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    : null
-                            }
-                        </div>
-                    </div>
+                                        : null
+                                }
+                            </div>
+                            : null
+                    }
                 </div>
             </div>
         </section>

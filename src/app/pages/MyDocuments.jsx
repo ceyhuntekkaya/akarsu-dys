@@ -3,18 +3,29 @@ import ActiveDocuments from "./parts/ActiveDocuments";
 import {useContext, useEffect, useState} from "react";
 import DocumentDetail from "./parts/DocumentTabs";
 import {useApi} from "../../service/useApi";
-import {AppContext} from "../../context/AppContextProvider";
 import {UserContext} from "../../context/UserContextProvider";
 
 export default function MyDocuments() {
     const [selectedDocument, setSelectedDocument] = useState({});
     const [projects, setProjects] = useState({});
+    const [tableHeight, setTableHeight] = useState('400px');
 
 
     const [data, setData] = useApi(null);
-    const appContext = useContext(AppContext);
     const userContext = useContext(UserContext);
     const {userInformation} = userContext;
+
+
+    useEffect(() => {
+        const calculateHeight = () => {
+            const windowHeight = window.innerHeight;
+            const availableHeight = windowHeight - 350;
+            setTableHeight(`${availableHeight}px`);
+        };
+        calculateHeight();
+        window.addEventListener('resize', calculateHeight);
+        return () => window.removeEventListener('resize', calculateHeight);
+    }, []);
 
     useEffect(() => {
         if (data === null) {
@@ -36,7 +47,7 @@ export default function MyDocuments() {
                     projectList.push(addProject)
                 }
             })
-            setProjects()
+            //setProjects()
         }
 
     }
@@ -44,11 +55,13 @@ export default function MyDocuments() {
 
     return (
         <>
-            <div className="row">
+            <div className="row mx-1">
                 <div className="col-8 p-1">
                     <div className="card shadow">
                         <h5 className="card-header">Evraklarım</h5>
-                        <div className="card-body">
+                        <div className="card-body" style={{
+                            height: tableHeight, overflowY: 'auto'
+                        }}>
 
                             <ActiveDocuments selectedDocument={selectedDocument}
                                              setSelectedDocument={setSelectedDocument}
