@@ -179,6 +179,58 @@ export const useApi = () => {
     };
 
 
+    const getAuthority = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/user/authority/${data}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+
+    const updateAuthority = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/user/authority/${data["userId"]}/${data["authority"]}/${data["operation"]}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+    const addUser = async (data) => {
+        const response = await Request(
+            "post",
+            `${config.api.invokeUrl}/user/`, data
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+    const updateUser = async (data) => {
+        const response = await Request(
+            "patch",
+            `${config.api.invokeUrl}/user/`, data
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+    const deleteUser = async (data) => {
+        const response = await Request(
+            "delete",
+            `${config.api.invokeUrl}/user/${data}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
 
 
     const handleChange = async (type, data) => {
@@ -215,6 +267,17 @@ export const useApi = () => {
             await saveDocument(data);
         }else if (type === "findAllProject") {
             await findAllProject(data);
+        }
+        else if (type === "updateAuthority") {
+            await updateAuthority(data);
+        }else if (type === "addUser") {
+            await addUser(data);
+        }else if (type === "updateUser") {
+            await updateUser(data);
+        }else if (type === "deleteUser") {
+            await deleteUser(data);
+        }else if (type === "getAuthority") {
+            await getAuthority(data);
         }
 
 

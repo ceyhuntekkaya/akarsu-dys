@@ -11,11 +11,7 @@ export default function Header() {
     const appContext = useContext(AppContext);
     const {setAppState} = appContext;
     const userContext = useContext(UserContext);
-    const {userInformation} = userContext;
-
-
-    //console.log(window.location.pathname);
-    //console.log(window.location.href);
+    const {userInformation, auth} = userContext;
 
     let path = window.location.pathname;
 
@@ -62,30 +58,46 @@ export default function Header() {
                         className="d-flex justify-content-between w-100 p-0"
                         id="navbarSupportedContent"
                     >
+
                         <div className="d-flex align-items-center">
                             <Link to="/"
                                   className={`btn ${path === "/" ? "btn-success" : "btn-gray-200"} m-2 m-lg-0`}>Evraklarım</Link>
-                            <Link to="/search"
-                                  className={`btn ${path === "/search" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
-                                Arama</Link>
-                            <Link to="/archive"
-                                  className={`btn ${path === "/archive" ? "btn-success" : "btn-gray-200"} m-2`}>Arşiv</Link>
-                            <Link to="/admin"
-                                  className={`btn ${path === "/admin" ? "btn-success" : "btn-gray-200"} m-2`}>Yönetim</Link>
-                            <Link to="/change-password"
-                                  className={`btn ${path === "/change-password" ? "btn-success" : "btn-gray-200"} m-2`}>Şifre
-                                Değiştirme</Link>
-                            <Link to="/document-scan"
-                                  className={`btn ${path === "/document-scan" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
-                                Tarama</Link>
+                            {
+                                auth && auth.fileSearch ?
+                                    <Link to="/search"
+                                          className={`btn ${path === "/search" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
+                                        Arama</Link>
+                                    : null
+                            }
+                            {
+                                auth && auth.archive ?
+                                    <Link to="/archive"
+                                          className={`btn ${path === "/archive" ? "btn-success" : "btn-gray-200"} m-2`}>Arşiv</Link>
+
+                                    : null
+                            }
+                            {
+                                auth && auth.admin ?
+                                    <Link to="/admin"
+                                          className={`btn ${path === "/admin" ? "btn-success" : "btn-gray-200"} m-2`}>Yönetim</Link>
+                                    : null
+                            }
+                            {
+                                //<Link to="/change-password" className={`btn ${path === "/change-password" ? "btn-success" : "btn-gray-200"} m-2`}>Şifre Değiştirme</Link>
+                            }
+                            {
+                                auth && auth.scan ?
+                                    <Link to="/document-scan"
+                                          className={`btn ${path === "/document-scan" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
+                                        Tarama</Link>
+                                    : null
+                            }
                             <Link to="/projects"
-                                  className={`btn ${path === "/projects" ? "btn-success" : "btn-gray-200"} m-2`}>Proje
-                                Tanımlama</Link>
+                                  className={`btn ${path === "/projects" ? "btn-success" : "btn-gray-200"} m-2`}>Projeler
+                            </Link>
                             {
                                 //<Link to="/text" className={`btn ${path === "/text" ? "btn-success" : "btn-gray-200"} m-2`}>Yazılar</Link>
                             }
-
-
                         </div>
 
                     </div>

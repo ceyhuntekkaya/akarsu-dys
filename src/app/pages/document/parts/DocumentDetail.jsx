@@ -40,7 +40,7 @@ export default function DocumentDetail(props) {
 
 
     const userContext = useContext(UserContext);
-    const {userInformation} = userContext;
+    const {userInformation, auth} = userContext;
 
 
 
@@ -198,7 +198,13 @@ export default function DocumentDetail(props) {
                     </div>
             </div>
             <div className="row mb-4">
-                <button type="submit" className="btn btn-primary mt-3">Evrak Güncelle</button>
+                <button type="submit" className="col btn btn-primary m-3">Evrak Güncelle</button>
+
+                {
+                    auth && auth.delete ?
+                        <button type="submit" className="col btn btn-danger m-3">Evrak Sil</button>
+                        : null
+                }
             </div>
         </>
     )

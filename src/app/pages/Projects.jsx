@@ -13,7 +13,7 @@ export default function Projects() {
     const [projectList, setProjectList] = useApi(null);
 
     const userContext = useContext(UserContext);
-    const {userInformation} = userContext;
+    const {userInformation, auth} = userContext;
 
     const [selectedProject, setSelectedProject] = useState(null);
     const [tableHeight, setTableHeight] = useState('400px');
@@ -149,16 +149,23 @@ export default function Projects() {
             </div>)
     }
     return (<>
-            <div className="row m-2">
-                <div className="card border-0 shadow rounded p-3">
-                    {projectAddPanel()}
-                </div>
-            </div>
-            <div className="row w-100 py-2">
-                <DataTable/>
-            </div>
 
-            {selectedProject ? <div className="row w-100 py-2 px-3">
+        {
+            auth && auth.project ?
+                <div className="row m-2">
+                    <div className="card border-0 shadow rounded p-3">
+                        {projectAddPanel()}
+                    </div>
+                </div>
+                : null
+        }
+
+
+        <div className="row w-100 py-2">
+            <DataTable/>
+        </div>
+
+        {selectedProject && auth && auth.project ? <div className="row w-100 py-2 px-3">
                 <div className="row">
                     <button
                         className={`col-auto btn btn-success m-2`}>Proje Bilgilerini Güncelle

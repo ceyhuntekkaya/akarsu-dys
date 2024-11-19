@@ -39,7 +39,16 @@ const baseValue = {
     authorizationLevel: -1,
 
 }
+const baseValueAuthorityForm = {
+    fileSearch:false,
+    archive:false,
+    scan:false,
+    admin:false,
+    text:false,
+    project:false,
+    delete:false
 
+}
 
 export default function DocumentScan() {
     const userContext = useContext(UserContext);
@@ -127,9 +136,6 @@ export default function DocumentScan() {
             "document": params,
             "files": fileList
         }
-
-        console.log(parameters)
-
         setSaveDocuments("saveDocument", parameters).then(r => null)
     };
 
