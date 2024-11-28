@@ -1,6 +1,7 @@
 import {useContext, useState} from "react";
 import {UserContext} from "../context/UserContextProvider";
 import Request from "./Request";
+import {NotificationManager} from "react-notifications";
 
 const config = require("../config/config.json");
 
@@ -16,9 +17,10 @@ export const useAuth = () => {
             `${config.api.invokeUrl}/user/login`, params
         );
         if (response) {
-
             setUserInformation(response)
             setResult(true);
+        }else{
+            NotificationManager.error("Hatalı Kullanıcı Bilgileri");
         }
         /*
             try {

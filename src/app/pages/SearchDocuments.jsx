@@ -50,7 +50,14 @@ export default function SearchDocuments(props) {
         setData({...data, authority: userInformation.authority})
         setDocumentTypes("documentTypes").then(r => null)
         setGroups("groups").then(r => null)
-        setProjectList("findProjectByAuth", userInformation?.authority).then(r => null)
+
+        if (archive) {
+            setProjectList("findNonActiveProjects", userInformation?.authority).then(r => null)
+        }
+        else{
+            setProjectList("findProjectByAuth", userInformation?.authority).then(r => null)
+        }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -70,6 +77,7 @@ export default function SearchDocuments(props) {
         if (archive) {
             searchData.archive = true
         }
+        console.log(searchData)
         setSearchProject("searchProject", searchData).then(r => null)
     }
 
@@ -79,7 +87,6 @@ export default function SearchDocuments(props) {
 
     const searchPanel = () => {
         return (
-
             <div className="card shadow mb-3">
                 <div className="card-body">
                     <div className="row m-2">

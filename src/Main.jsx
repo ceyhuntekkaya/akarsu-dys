@@ -1,175 +1,164 @@
 import React, {useContext, useEffect} from "react";
-import {AppContext} from "./context/AppContextProvider";
-import {Route, Routes} from "react-router";
+import {Routes, Route, Navigate} from "react-router-dom";
 import {adminRoutes, loginRoutes} from "./config/route";
 import NoMatch from "./app/general/NoMatch";
-import {UserContext} from "./context/UserContextProvider";
-import {BrowserRouter} from "react-router-dom";
 import Header from "./app/page-parts/Header";
 import Footer from "./app/page-parts/Footer";
 import {HashLoader} from "react-spinners";
-import {useApi} from "./service/useApi";
-import axios from "axios";
-import config from "./config/config.json";
+import {AppContext} from "./context/AppContextProvider";
+import {UserContext} from "./context/UserContextProvider";
 import TokenService from "./service/token.service";
+import axios from "axios";
 
+const config = require("./config/config.json");
+
+
+const retrieveUserByAccessToken = async (accessToken) => {
+    try {
+        const response = await axios.get(
+            `${config.api.invokeUrl}/auth/by-accessToken`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return {data: response.data};
+    } catch (err) {
+        return {err};
+    }
+};
+
+const retrieveAccessTokenByRefreshToken = async (
+    refreshToken,
+    accessToken
+) => {
+    try {
+        const response = await axios.post(
+            `${config.api.invokeUrl}/auth/by-refreshToken`,
+            {
+                accessToken,
+                refreshToken,
+            }
+        );
+        return {data: response.data};
+    } catch (err) {
+        return {err};
+    }
+};
+
+
+const PrivateRoute = ({children}) => {
+    const {appState} = useContext(AppContext);
+    return appState === "COMPLETED" ? children : <Navigate to="/login"/>;
+};
 
 export default function Main() {
-    const appContext = useContext(AppContext);
-    const {appState, setAppState} = appContext;
-    const userContext = useContext(UserContext);
-    const {userInformation, setUserInformation} = userContext;
-
+    const {appState, setAppState} = useContext(AppContext);
+    const {setUserInformation} = useContext(UserContext);
 
     useEffect(() => {
-        const retrieveAndSetLocalStorageUser = async () => {
+        const verifyUserAuthentication = async () => {
             const localStorageUser = localStorage.getItem("user");
-            if (!localStorageUser) {
-                TokenService.removeUser();
-                setAppState("LOGIN_REQUIRED");
-                return;
-            }
             const localStorageLoginState = localStorage.getItem("loginState");
-            if (localStorageLoginState === "SMS_REQUIRED") {
+
+            if (!localStorageUser || localStorageLoginState === "SMS_REQUIRED") {
                 TokenService.removeUser();
                 setAppState("LOGIN_REQUIRED");
                 return;
             }
-            const parsedUser = JSON.parse(localStorageUser);
-            const {access_token, refresh_token} = parsedUser;
-            const {data: accessTokenData, err: accessTokenErr} =
-                await retrieveUserByAccessToken(access_token);
-            if (accessTokenErr) {
-                const {data: refreshTokenData, err: refreshTokenErr} =
-                    await retrieveAccessTokenByRefreshToken(refresh_token, access_token);
-                if (refreshTokenErr) {
+
+            try {
+                const parsedUser = JSON.parse(localStorageUser);
+                const {access_token, refresh_token} = parsedUser;
+
+                const accessTokenResponse = await retrieveUserByAccessToken(access_token);
+                if (accessTokenResponse.data) {
+                    TokenService.setUser(accessTokenResponse.data);
+                    setUserInformation(TokenService.getUser(accessTokenResponse.data));
+                    setAppState("COMPLETED");
+                    return;
+                }
+
+                const refreshTokenResponse = await retrieveAccessTokenByRefreshToken(refresh_token, access_token);
+                if (refreshTokenResponse.data) {
+                    TokenService.setUser(refreshTokenResponse.data);
+                    setUserInformation(TokenService.getUser(refreshTokenResponse.data));
+                    setAppState("COMPLETED");
+                } else {
                     TokenService.removeUser();
                     setAppState("LOGIN_REQUIRED");
-                } else {
-                    TokenService.setUser(refreshTokenData);
-                    setUserInformation(TokenService.getUser(refreshTokenData));
-                    setAppState("COMPLETED");
                 }
-            } else {
-                TokenService.setUser(accessTokenData);
-                setUserInformation(TokenService.getUser(accessTokenData));
-                setAppState("COMPLETED");
+            } catch (error) {
+                TokenService.removeUser();
+                setAppState("LOGIN_REQUIRED");
             }
         };
+
         if (appState === "INITIALIZING") {
-            retrieveAndSetLocalStorageUser();
+            verifyUserAuthentication();
         }
     }, [appState]);
 
-    const retrieveUserByAccessToken = async (accessToken) => {
-        try {
-            const response = await axios.get(
-                `${config.api.invokeUrl}/auth/by-accessToken`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-            return {data: response.data};
-        } catch (err) {
-            return {err};
-        }
-    };
-
-    const retrieveAccessTokenByRefreshToken = async (
-        refreshToken,
-        accessToken
-    ) => {
-        try {
-            const response = await axios.post(
-                `${config.api.invokeUrl}/auth/by-refreshToken`,
-                {
-                    accessToken,
-                    refreshToken,
-                }
-            );
-            return {data: response.data};
-        } catch (err) {
-            return {err};
-        }
-    };
-
-    const compare = (a, b) => {
-        if (a.sort < b.sort) {
-            return -1;
-        }
-        if (a.sort > b.sort) {
-            return 1;
-        }
-        return 0;
-    };
-
-
-    const RenderMainContent = () => {
-        if (appState === "INITIALIZING") {
-            return (
-                <div className="h-100 flex-1 d-flex justify-content-center align-items-center">
-                    <HashLoader color="#082070"/>
-                </div>
-            );
-        } else if (appState === "LOGIN_REQUIRED") {
-            return (<div className="content">
-                <BrowserRouter>
-                    <main>
-                        <Routes>
-                            {loginRoutes.sort(compare).map((route, key) => (
-                                <Route
-                                    key={key}
-                                    path={route.path}
-                                    element={<route.component {...route} />}
-                                />
-                            ))}
-                            <Route path="*" element={<NoMatch/>}/>
-                        </Routes>
-                    </main>
-                </BrowserRouter>
-            </div>);
-        } else if (appState === "COMPLETED") {
+    const renderContent = () => {
+        switch (appState) {
+            case "INITIALIZING":
                 return (
-                    <div className="content">
-                        <BrowserRouter>
-
-                            <main style={{height: "100vh"}}>
-                                <div
-                                    className="h-100 d-flex flex-column justify-content-between"
-                                    style={{overflowY: "auto"}}
-                                >
-                                    <div>
-                                        <Header/>
-                                    </div>
-                                    <div className="h-100" style={{overflowY: "auto"}}>
-                                        <Routes>
-                                            {adminRoutes.sort(compare).map((route, key) => (
-                                                <Route
-                                                    key={key}
-                                                    path={route.path}
-                                                    element={<route.component {...route} />}
-                                                />
-                                            ))}
-                                            <Route path="*" element={<NoMatch/>}/>
-                                        </Routes>
-                                    </div>
-                                    <div>
-                                        <Footer/>
-                                    </div>
-                                </div>
-                            </main>
-                        </BrowserRouter>
+                    <div className="h-100 flex-1 d-flex justify-content-center align-items-center">
+                        <HashLoader color="#082070"/>
                     </div>
                 );
-
+            case "LOGIN_REQUIRED":
+                return (
+                    <div className="content">
+                        <main>
+                            <Routes>
+                                {loginRoutes.map((route, key) => (
+                                    <Route
+                                        key={key}
+                                        path={route.path}
+                                        element={<route.component {...route} />}
+                                    />
+                                ))}
+                                <Route path="*" element={<NoMatch/>}/>
+                            </Routes>
+                        </main>
+                    </div>
+                );
+            case "COMPLETED":
+                return (
+                    <div className="content">
+                        <main style={{height: "100vh"}}>
+                            <div
+                                className="h-100 d-flex flex-column justify-content-between"
+                                style={{overflowY: "auto"}}
+                            >
+                                <Header/>
+                                <div className="h-100" style={{overflowY: "auto"}}>
+                                    <Routes>
+                                        {adminRoutes.map((route, key) => (
+                                            <Route
+                                                key={key}
+                                                path={route.path}
+                                                element={
+                                                    <PrivateRoute>
+                                                        <route.component {...route} />
+                                                    </PrivateRoute>
+                                                }
+                                            />
+                                        ))}
+                                        <Route path="*" element={<NoMatch/>}/>
+                                    </Routes>
+                                </div>
+                                <Footer/>
+                            </div>
+                        </main>
+                    </div>
+                );
+            default:
+                return null;
         }
     };
-    return (
-        <div style={{height: "100vh"}}>
-            {RenderMainContent()}
-            {/* {userRole === "PARENT" ? <ContractMainPage /> : <Admin />} */}
-        </div>
-    );
+
+    return <div style={{height: "100vh"}}>{renderContent()}</div>;
 }

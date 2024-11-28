@@ -4,6 +4,7 @@ import * as React from "react";
 import {useApi} from "../../service/useApi";
 import {UserContext} from "../../context/UserContextProvider";
 import {uploadFileToPath} from "../../service/StorageService";
+import {NotificationManager} from "react-notifications";
 
 
 const baseValuee = {
@@ -136,7 +137,9 @@ export default function DocumentScan() {
             "document": params,
             "files": fileList
         }
-        setSaveDocuments("saveDocument", parameters).then(r => null)
+        setSaveDocuments("saveDocument", parameters).then(r =>
+            NotificationManager.success("Evrak Kaydedildi", "Başarılı", 3000))
+
     };
 
     const searchPanel = () => {

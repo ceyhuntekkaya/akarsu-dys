@@ -118,7 +118,7 @@ export default function DocumentSend(props) {
                                         return (
                                             <tr key={index}>
                                                 <td>{formatUnixTimestamp(transaction.createDate)}</td>
-                                                <td>{transaction.userFrom.name}</td>
+                                                <td>{transaction.userFrom?.name}</td>
                                                 <td>{transaction.userTo?.name}</td>
                                                 <td>{transaction.readDate ? "Okundu" : "Okunmadı"}</td>
                                             </tr>

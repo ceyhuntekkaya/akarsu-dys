@@ -1,4 +1,4 @@
 DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose build
-docker push ctekkaya/akarsu-dys:0.1
+docker push ctekkaya/akarsu-dys:3.0
 
 

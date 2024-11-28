@@ -10,22 +10,24 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 import ReactModal from "react-modal";
 import UserContextProvider from "./context/UserContextProvider";
 import Main from "./Main";
-import { NotificationContainer } from "react-notifications";
-import { createRoot } from 'react-dom/client';
+import {NotificationContainer} from "react-notifications";
+import {createRoot} from 'react-dom/client';
+import {BrowserRouter} from "react-router-dom";
 
 
 const root = createRoot(document.getElementById("root"));
 ReactModal.setAppElement("#root");
 
 
-
 root.render(
-  <AppContextProvider>
-    <UserContextProvider>
-      <NotificationContainer />
-      <Main />
-    </UserContextProvider>
-  </AppContextProvider>
+    <AppContextProvider>
+        <UserContextProvider>
+            <NotificationContainer/>
+            <BrowserRouter>
+                <Main/>
+            </BrowserRouter>
+        </UserContextProvider>
+    </AppContextProvider>
 );
 
 reportWebVitals();

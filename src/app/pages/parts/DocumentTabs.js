@@ -13,18 +13,21 @@ export default function DocumentTabs(props) {
         <div className="px-0">
             <div className="w-100 p-0">
                 <div className="row">
-                    <button onClick={() => setPage(0)}
-                            className={`col rounded-0 btn ${page === 0 ? "btn-success" : "btn-gray-200"} m-0 m-lg-0"`}>Gönder
-                    </button>
                     <button onClick={() => setPage(2)}
                             className={`col rounded-0 btn ${page === 2 ? "btn-success" : "btn-gray-200"} m-0`}>Detay
                     </button>
+
+                    <button onClick={() => setPage(0)}
+                            className={`col rounded-0 btn ${page === 0 ? "btn-success" : "btn-gray-200"} m-0 m-lg-0"`}>Gönder
+                    </button>
+
                     <button onClick={() => setPage(1)}
                             className={`col rounded-0 btn ${page === 1 ? "btn-success" : "btn-gray-200"} m-0`}>Geçmiş
                     </button>
-                    <button onClick={() => setPage(3)}
-                            className={`col rounded-0 btn ${page === 3 ? "btn-success" : "btn-gray-200"} m-0`}>İşlem
-                    </button>
+                    {
+                        // <button onClick={() => setPage(3)} className={`col rounded-0 btn ${page === 3 ? "btn-success" : "btn-gray-200"} m-0`}>İşlem </button>
+                    }
+
                 </div>
                 <div className="row">
                     <div className="card-body">

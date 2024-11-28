@@ -8,7 +8,7 @@ import {AppContext} from "../../context/AppContextProvider";
 export default function Login() {
     const appContext = useContext(AppContext);
     const {appState, setAppState} = appContext;
-    const [inputs, setInputs] = useInput({username: "eg123", password: "123"});
+    const [inputs, setInputs] = useInput({username: "", password: ""});
     const [auth, setAuth] = useAuth(false);
 
 
@@ -39,19 +39,17 @@ export default function Login() {
                             <img
                                 src={Logo}
                                 alt="atekent_logo"
-                                style={{width: "150px"}}
+                                style={{width: "400px"}}
                                 className="p-3"
                             />
                         </div>
                         <div className="w-100 d-flex justify-content-center">
+
                             <h2 className="h5 mb-4">
-                               Proje
+                                DOKÜMAN YÖNETİM SİSTEMİ
                             </h2>
                         </div>
                         <form>
-                            <div className="alert alert-info">
-                               Giriş
-                            </div>
                             <FormInput
                                 name="username"
                                 text="Kullanıcı Adı"

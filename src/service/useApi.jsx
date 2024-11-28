@@ -67,7 +67,17 @@ export const useApi = () => {
     const findProjectByAuth = async (data) => {
         const response = await Request(
             "get",
-            `${config.api.invokeUrl}/project/auth/${data}`
+            `${config.api.invokeUrl}/project/active/${data}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+    const findNonActiveProjects = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/project/archived/${data}`
         );
         if (response) {
             setResult(response);
@@ -231,6 +241,65 @@ export const useApi = () => {
     };
 
 
+    const projectAdd = async (data) => {
+        const response = await Request(
+            "post",
+            `${config.api.invokeUrl}/project/${data["type"]}`, data["project"]
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+
+    const deleteDocument = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/document/delete/${data}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+    const updateDocument = async (data) => {
+        const response = await Request(
+            "put",
+            `${config.api.invokeUrl}/document/${data["id"]}`, data["document"]
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
+
+
+
+
+
+
+
+
+    const deleteProject = async (data) => {
+        const response = await Request(
+            "get",
+            `${config.api.invokeUrl}/project/delete/${data["id"]}/${data["type"]}`
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+    const updateProject = async (data) => {
+        const response = await Request(
+            "put",
+            `${config.api.invokeUrl}/project/${data["id"]}/${data["type"]}`, data["project"]
+        );
+        if (response) {
+            setResult(response);
+        }
+    };
+
 
 
     const handleChange = async (type, data) => {
@@ -267,8 +336,7 @@ export const useApi = () => {
             await saveDocument(data);
         }else if (type === "findAllProject") {
             await findAllProject(data);
-        }
-        else if (type === "updateAuthority") {
+        }else if (type === "updateAuthority") {
             await updateAuthority(data);
         }else if (type === "addUser") {
             await addUser(data);
@@ -278,7 +346,21 @@ export const useApi = () => {
             await deleteUser(data);
         }else if (type === "getAuthority") {
             await getAuthority(data);
+        }else if (type === "projectAdd") {
+            await projectAdd(data);
+        }else if (type === "findNonActiveProjects") {
+            await findNonActiveProjects(data);
+        }else if (type === "deleteDocument") {
+            await deleteDocument(data);
+        }else if (type === "updateDocument") {
+            await updateDocument(data);
+        }else if (type === "deleteProject") {
+            await deleteProject(data);
+        }else if (type === "updateProject") {
+            await updateProject(data);
         }
+
+
 
 
     };

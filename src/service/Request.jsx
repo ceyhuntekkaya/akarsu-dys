@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { NotificationManager } from "react-notifications";
-import { convertToTurkish } from "../utilization/LanguageOperations";
 
 export default async function Request(method, url, body) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -22,7 +21,7 @@ export default async function Request(method, url, body) {
     } catch (err) {
       console.log(`Error: ${err}`);
       if (err.response && err.response.data) {
-        NotificationManager.error(convertToTurkish(err.response.data));
+        NotificationManager.error(err.response.data);
       }
     }
   } else if (method === "patch") {
@@ -32,7 +31,7 @@ export default async function Request(method, url, body) {
     } catch (err) {
       console.log(`Error: ${err}`);
       if (err.response && err.response.data) {
-        NotificationManager.error(convertToTurkish(err.response.data));
+        NotificationManager.error(err.response.data);
       }
     }
   } else if (method === "delete") {
@@ -42,7 +41,7 @@ export default async function Request(method, url, body) {
     } catch (err) {
       console.log(`Error: ${err}`);
       if (err.response && err.response.data) {
-        NotificationManager.error(convertToTurkish(err.response.data));
+        NotificationManager.error(err.response.data);
       }
     }
   } else if (method === "post") {
@@ -53,7 +52,7 @@ export default async function Request(method, url, body) {
     } catch (err) {
       console.log(`Error: ${err}`);
       if (err.response && err.response.data) {
-        NotificationManager.error(convertToTurkish(err.response.data));
+        NotificationManager.error(err.response.data);
       }
     }
   } else if (method === "put") {
@@ -63,7 +62,7 @@ export default async function Request(method, url, body) {
     } catch (err) {
       console.log(`Error: ${err}`);
       if (err.response && err.response.data) {
-        NotificationManager.error(convertToTurkish(err.response.data));
+        NotificationManager.error(err.response.data);
       }
     }
   }

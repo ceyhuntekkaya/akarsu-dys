@@ -1,23 +1,23 @@
-import {IconDashboard, IconKanban, IconMessages, IconUsers} from "../../../general/components/Icons";
+import {IconKanban, IconMessages, IconUsers} from "../../../general/components/Icons";
 import {Link} from "react-router-dom";
 
 const config = require("../../../../config/config.json");
 
 
 export default function DocumentFile(props) {
-    const {files} = props;
+    const {files, handleDocumentPartDelete, handleDocumentPartArchive} = props;
 
-    const showEvent = (e) => {
+    const showEvent = (id) => {
         console.log("showEvent")
     }
-    const completeEvent = (e) => {
+    const completeEvent = (id) => {
         console.log("completeEvent")
     }
-    const archiveEvent = (e) => {
-        console.log("archiveEvent")
+    const archiveEvent = (id) => {
+        handleDocumentPartArchive(id);
     }
-    const deleteEvent = (e) => {
-        console.log("deleteEvent")
+    const deleteEvent = (id) => {
+        handleDocumentPartDelete(id);
     }
 
 //  <td className="w-100"><Link to={`https://pdfobject.com/pdf/sample.pdf`} target="_blank"><div className="w-100">{file.name}</div></Link></td>
@@ -30,19 +30,22 @@ export default function DocumentFile(props) {
                         files?.map((file, key) => {
                             return (
                                 <>
+
+
+
                                     <tr key={key}>
                                         <td className="w-100"><Link
-                                            to={`${config.api.invokeUrl}/document/user/${file.name}`} target="_blank">
+                                            to={`${config.api.invokeUrl}/storage/preview/file/${file.id}/${file.name}`} target="_blank">
                                             <div className="w-100">{file.name}</div>
                                         </Link></td>
                                         <td>
                                             <div style={{whiteSpace: "nowrap"}}>
                                                 <span className="m-1"
-                                                      onClick={() => completeEvent()}><IconKanban/></span>
+                                                      onClick={() => completeEvent(file.id)}><IconKanban/></span>
                                                 <span className="m-1"
-                                                      onClick={() => archiveEvent()}><IconMessages/></span>
+                                                      onClick={() => archiveEvent(file.id)}><IconMessages/></span>
                                                 <span className="m-1 mr-0"
-                                                      onClick={() => deleteEvent()}><IconUsers/></span>
+                                                      onClick={() => deleteEvent(file.id)}><IconUsers/></span>
                                             </div>
                                         </td>
                                     </tr>
