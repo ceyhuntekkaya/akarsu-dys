@@ -19,7 +19,7 @@ export default function MyDocuments() {
     useEffect(() => {
         const calculateHeight = () => {
             const windowHeight = window.innerHeight;
-            const availableHeight = windowHeight - 350;
+            const availableHeight = windowHeight - 180;
             setTableHeight(`${availableHeight}px`);
         };
         calculateHeight();
@@ -58,7 +58,6 @@ export default function MyDocuments() {
             <div className="row mx-1">
                 <div className="col-8 p-1">
                     <div className="card shadow">
-                        <h5 className="card-header">Evraklarım</h5>
                         <div className="card-body" style={{
                             height: tableHeight, overflowY: 'auto'
                         }}>
@@ -73,7 +72,7 @@ export default function MyDocuments() {
                 </div>
                 <div className="col-4 p-1">
                     <div className="card shadow">
-                        <h5 className="card-header">Evrak Detayları</h5>
+
                         <div className="card-body">
                             {
                                 selectedDocument ?

@@ -150,7 +150,10 @@ export default function Main() {
                                         <Route path="*" element={<NoMatch/>}/>
                                     </Routes>
                                 </div>
-                                <Footer/>
+                                {
+                                    //   <Footer/>
+                                }
+
                             </div>
                         </main>
                     </div>

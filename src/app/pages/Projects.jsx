@@ -10,7 +10,8 @@ const baseValue = {
     }, creationDate: "",
 }
 export default function Projects() {
-    const [projectList, setProjectList] = useApi(null);
+    const [_projectList, _setProjectList] = useApi(null);
+    const [projectList, setProjectList] = useState(null);
 
 
     const userContext = useContext(UserContext);
@@ -20,10 +21,19 @@ export default function Projects() {
     const [tableHeight, setTableHeight] = useState('830px');
     const [data, setData] = useState({...baseValue})
 
+
+    useEffect(() => {
+        if (_projectList) {
+            setProjectList(_projectList)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_projectList]);
+
+
     useEffect(() => {
         const calculateHeight = () => {
             const windowHeight = window.innerHeight;
-            const availableHeight = windowHeight - 450;
+            const availableHeight = windowHeight - 410;
             setTableHeight(`${availableHeight}px`);
         };
         calculateHeight();
@@ -42,10 +52,11 @@ export default function Projects() {
     useEffect(() => {
         if (projectList === null) {
 
-            setProjectList("findAllProject", userInformation?.authority).then(r => null)
+            _setProjectList("findAllProject", userInformation?.authority).then(r => null)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     const makeArchive = (value) => {
         if (value === false) {
@@ -66,21 +77,64 @@ export default function Projects() {
         }
         return "Yönetim"
     }
+
+    const [sortConfig, setSortConfig] = useState({
+        key: null,
+        direction: 'ascending'
+    });
+
+
+    const getSortDirection = (columnName) => {
+        if (sortConfig.key === columnName) {
+            return sortConfig.direction === 'ascending' ? ' ↑' : ' ↓';
+        }
+        return '';
+    };
+
+    const sortData = (key) => {
+        let direction = 'ascending';
+
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        const sortedData = [...projectList].sort((a, b) => {
+            if (!a[key]) return 1;
+            if (!b[key]) return -1;
+
+            if (typeof a[key] === 'string' && typeof b[key] === 'string') {
+                if (direction === 'ascending') {
+                    return a[key].toLowerCase().localeCompare(b[key].toLowerCase());
+                }
+                return b[key].toLowerCase().localeCompare(a[key].toLowerCase());
+            }
+            if (direction === 'ascending') {
+                return a[key] - b[key];
+            }
+            return b[key] - a[key];
+        });
+        setSortConfig({key, direction});
+        setProjectList(sortedData);
+    };
+
+
     const DataTable = () => {
         return (<div className="col-12 p-1">
             <div className="card shadow p-0">
-                <h5 className="card-header">Projeler</h5>
                 <div className="card-body" style={{
                     height: tableHeight, overflowY: 'auto'
                 }}>
                     <table className="table table-striped mb-0">
                         <thead>
                         <tr>
-                            <th scope="col">Proje Adı</th>
-                            <th scope="col">Açıklama</th>
-                            <th scope="col">Oluşturulma</th>
-                            <th scope="col">Durum</th>
-                            <th scope="col">Yeti Düzeyi</th>
+                            <th scope="col" onClick={() => sortData('name')}>Proje Adı {getSortDirection('name')}</th>
+                            <th scope="col"
+                                onClick={() => sortData('description')}>Açıklama {getSortDirection('description')}</th>
+                            <th scope="col"
+                                onClick={() => sortData('creationDate')}>Oluşturulma {getSortDirection('creationDate')}</th>
+                            <th scope="col"
+                                onClick={() => sortData('archived')}>Durum {getSortDirection('archived')}</th>
+                            <th scope="col" onClick={() => sortData('authorizationLevel')}>Yeti
+                                Düzeyi {getSortDirection('authorizationLevel')}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -110,14 +164,30 @@ export default function Projects() {
         setData({...data, [prop]: value})
     }
 
+    const validate = () => {
+        let valid = true;
+        if (data.name.length === 0) {
+            NotificationManager.error("Proje Adı Giriniz", "Hata", 3000);
+            valid = false;
+        }
+        if (data.authorizationLevel === -1) {
+            NotificationManager.error("Yetki Düzeyi Seçiniz", "Hata", 3000);
+            valid = false;
+        }
+        return valid;
+    }
+
 
     const saveProject = () => {
-        data.authorizationLevel = Number(data.authorizationLevel);
-        if (data.createdBy) {
-            data.createdBy.id = userInformation?.id;
+        if (validate()) {
+            data.authorizationLevel = Number(data.authorizationLevel);
+            if (data.createdBy) {
+                data.createdBy.id = userInformation?.id;
+            }
+            _setProjectList("projectAdd", {project: data, type: userInformation?.authority}).then(r =>
+                NotificationManager.success("Proje Kaydedildi", "Başarılı", 3000));
+            clearFormData()
         }
-        setProjectList("projectAdd", {project: data, type: userInformation?.authority}).then(r =>
-            NotificationManager.success("Proje Kaydedildi", "Başarılı", 3000));
     }
 
     const clearFormData = () => {
@@ -126,17 +196,19 @@ export default function Projects() {
     }
 
 
-
-
     const deleteProject = () => {
 
-        setProjectList("deleteProject", {id: selectedProject.id, type: userInformation?.authority}).then(r =>
+        _setProjectList("deleteProject", {id: selectedProject.id, type: userInformation?.authority}).then(r =>
             NotificationManager.success("Proje Silindi", "Başarılı", 3000));
     }
 
     const archiveProject = () => {
         data.archived = !data.archived;
-        setProjectList("updateProject", {id: selectedProject.id, type: userInformation?.authority, project:data}).then(r =>
+        _setProjectList("updateProject", {
+            id: selectedProject.id,
+            type: userInformation?.authority,
+            project: data
+        }).then(r =>
             NotificationManager.success("Proje Güncellendi", "Başarılı", 3000));
     }
 
@@ -182,14 +254,14 @@ export default function Projects() {
                         <div className="col">
 
                             <button onClick={archiveProject}
-                                className={`col-auto btn btn-info m-2`}>Projeyi Arşivle
+                                    className={`col-auto btn btn-info m-2`}>Projeyi Arşivle
                             </button>
                         </div>
 
 
                         <div className="col">
                             <button onClick={deleteProject}
-                                className={`col-auto btn btn-danger m-2`}>Projeyi Sil
+                                    className={`col-auto btn btn-danger m-2`}>Projeyi Sil
                             </button>
                         </div>
 

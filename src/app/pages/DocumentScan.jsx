@@ -6,25 +6,6 @@ import {UserContext} from "../../context/UserContextProvider";
 import {uploadFileToPath} from "../../service/StorageService";
 import {NotificationManager} from "react-notifications";
 
-
-const baseValuee = {
-    project: {
-        id: 0,
-    },
-    type: "",
-    group: "",
-    number: "",
-    subject: "",
-    documentDate: "",
-    authorizationLevel: -1,
-//recordDate: null,
-    archive: false,
-    documentAddress: "",
-    connected: false,
-    owner: {id: 0},
-    ocr: ""
-}
-
 const baseValue = {
     project: {
         id: 0,
@@ -38,18 +19,8 @@ const baseValue = {
         id: 0,
     },
     authorizationLevel: -1,
-
 }
-const baseValueAuthorityForm = {
-    fileSearch:false,
-    archive:false,
-    scan:false,
-    admin:false,
-    text:false,
-    project:false,
-    delete:false
 
-}
 
 export default function DocumentScan() {
     const userContext = useContext(UserContext);
@@ -86,7 +57,6 @@ export default function DocumentScan() {
     }
 
 
-
     const onObjectValueChangeEvent = (prop1, prop2, value) => {
         setData({...data, [prop1]: {[prop2]: value}})
     }
@@ -118,31 +88,26 @@ export default function DocumentScan() {
         setFileUploadStatus("UPLOADED");
     };
 
-
     const handleSaveEvent = () => {
-
         let params = data;
-        //params.documentDate = Math.floor(new Date(data.documentDate).getTime() / 1000)
         params.recordBy = {id: Number(userInformation?.id)}
         params.project.id = Number(data.project.id)
         params.authorizationLevel = Number(data.authorizationLevel)
-
         params.owner = {id: Number(data.owner.id)}
-
-
-        // ceyhun
-
         const fileList = []
-        // eslint-disable-next-line array-callback-return
-        tempFiles.map((file) => {fileList.push(file.file)})
+        tempFiles.map((file) => {
+            fileList.push(file.file)
+        })
 
         const parameters = {
             "document": params,
             "files": fileList
         }
-        setSaveDocuments("saveDocument", parameters).then(r =>
-            NotificationManager.success("Evrak Kaydedildi", "Başarılı", 3000))
-
+        if (validation()) {
+            setSaveDocuments("saveDocument", parameters).then(r =>
+                NotificationManager.success("Evrak Kaydedildi", "Başarılı", 3000))
+            clearFormData()
+        }
     };
 
 
@@ -166,28 +131,56 @@ export default function DocumentScan() {
     };
 
 
+    const validation = () => {
+        let valid = true;
+        if (data.project.id === 0) {
+            NotificationManager.error("Proje Seçiniz", "Hata", 3000);
+            valid = false
+        } else if (data.subject === "") {
+            NotificationManager.error("Konu Giriniz", "Hata", 3000);
+            valid = false
+        } else if (data.documentDate === "") {
+            NotificationManager.error("Tarih Giriniz", "Hata", 3000);
+            valid = false
+        } else if (data.number === "") {
+            NotificationManager.error("Sayı Giriniz", "Hata", 3000);
+            valid = false
+        } else if (data.type === "") {
+            NotificationManager.error("Tip Seçiniz", "Hata", 3000);
+            valid = false
+        } else if (data.group === "") {
+            NotificationManager.error("Grup Seçiniz", "Hata", 3000);
+            valid = false
+        } else if (data.owner.id === 0) {
+            NotificationManager.error("Sorumlu Seçiniz", "Hata", 3000);
+            valid = false
+        } else if (data.authorizationLevel === -1) {
+            NotificationManager.error("Yetki Düzeyi Seçiniz", "Hata", 3000);
+            valid = false
+        } else if (tempFiles.length === 0) {
+            NotificationManager.error("Dosya Seçiniz", "Hata", 3000);
+            valid = false
+        }
+        return valid;
+    }
+
+    const clearFormData = () => {
+        setData({...baseValue})
+        setTempFiles([])
+    }
+
+
     const searchPanel = () => {
         return (
 
             <div className="card shadow">
                 <div className="card-body">
                     <div className="row m-2">
-                        <div className="col-auto">
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onDateValueChangeEvent("documentDate", e.target.value)}
-                                   value={formatDateForInput(data.documentDate)}/>
-                        </div>
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="SAYI"
-                                   onChange={(e) => onValueChangeEvent("number", e.target.value)}
-                                   value={data.number}/>
-                        </div>
-
 
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onObjectValueChangeEvent("project", "id", e.target.value)}>
-                                <option selected value="0">Proje Seç</option>
+                                <option selected value={0}>Proje Seç</option>
                                 {
                                     projectList ? projectList.map((project, index) => {
                                         return (
@@ -200,8 +193,25 @@ export default function DocumentScan() {
                                 }
                             </select>
                         </div>
+                        <div className="col">
+                            <input className="form-control" type="text" placeholder="KONU"
+                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                                   value={data.subject}/>
+                        </div>
+
+
                     </div>
                     <div className="row m-2">
+                        <div className="col">
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onDateValueChangeEvent("documentDate", e.target.value)}
+                                   value={formatDateForInput(data.documentDate)}/>
+                        </div>
+                        <div className="col">
+                            <input className="form-control" type="text" placeholder="SAYI"
+                                   onChange={(e) => onValueChangeEvent("number", e.target.value)}
+                                   value={data.number}/>
+                        </div>
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("type", e.target.value)}>
@@ -242,8 +252,8 @@ export default function DocumentScan() {
                         }
                         <div className="col">
                             <select className="form-control"
-                                    onChange={(e) => onObjectValueChangeEvent("owner","id", e.target.value)}>
-                                <option selected value="">Sorumlu Seç</option>
+                                    onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
+                                <option selected value={0}>Sorumlu Seç</option>
                                 {
                                     staffs ? staffs.map((staff, index) => {
                                         return (
@@ -265,7 +275,6 @@ export default function DocumentScan() {
                                 <option value="3">Yönetim</option>
 
 
-
                             </select>
                         </div>
 
@@ -273,23 +282,10 @@ export default function DocumentScan() {
                             //ceyhun
                         }
 
-
-                    </div>
-
-                    <div className="row m-2">
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="KONU"
-                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
-                                   value={data.subject}/>
-                        </div>
                         <div className="col-auto">
                             <button className="btn btn-success" onClick={handleSaveEvent}>EVRAK KAYDET</button>
                         </div>
                     </div>
-                    <div>
-
-                    </div>
-
                 </div>
             </div>
         )
@@ -365,7 +361,7 @@ export default function DocumentScan() {
                                 </div>
                                 <div className="col-4 p-1">
                                     <div className="card shadow">
-                                        <h5 className="card-header">Evrak Detayları</h5>
+
                                         <div className="card-body">
                                             <DocumentDetail data={{
                                                 "document": null,

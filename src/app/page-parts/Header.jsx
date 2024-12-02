@@ -61,42 +61,42 @@ export default function Header() {
 
                         <div className="d-flex align-items-center">
                             <Link to="/"
-                                  className={`btn ${path === "/" ? "btn-success" : "btn-gray-200"} m-2 m-lg-0`}>Evraklarım</Link>
+                                  className={`btn ${path === "/" ? "btn-danger" : "btn-info"} m-2 m-lg-0`}>Evraklarım</Link>
                             {
                                 auth && auth.fileSearch ?
                                     <Link to="/search"
-                                          className={`btn ${path === "/search" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
+                                          className={`btn ${path === "/search" ? "btn-danger" : "btn-info"} m-2`}>Evrak
                                         Arama</Link>
                                     : null
                             }
                             {
                                 auth && auth.archive ?
                                     <Link to="/archive"
-                                          className={`btn ${path === "/archive" ? "btn-success" : "btn-gray-200"} m-2`}>Arşiv</Link>
+                                          className={`btn ${path === "/archive" ? "btn-danger" : "btn-info"} m-2`}>Arşiv</Link>
 
                                     : null
                             }
                             {
                                 auth && auth.admin ?
                                     <Link to="/admin"
-                                          className={`btn ${path === "/admin" ? "btn-success" : "btn-gray-200"} m-2`}>Yönetim</Link>
+                                          className={`btn ${path === "/admin" ? "btn-danger" : "btn-info"} m-2`}>Yönetim</Link>
                                     : null
                             }
                             {
-                                //<Link to="/change-password" className={`btn ${path === "/change-password" ? "btn-success" : "btn-gray-200"} m-2`}>Şifre Değiştirme</Link>
+                                //<Link to="/change-password" className={`btn ${path === "/change-password" ? "btn-danger" : "btn-info"} m-2`}>Şifre Değiştirme</Link>
                             }
                             {
                                 auth && auth.scan ?
                                     <Link to="/document-scan"
-                                          className={`btn ${path === "/document-scan" ? "btn-success" : "btn-gray-200"} m-2`}>Evrak
+                                          className={`btn ${path === "/document-scan" ? "btn-danger" : "btn-info"} m-2`}>Evrak
                                         Tarama</Link>
                                     : null
                             }
                             <Link to="/projects"
-                                  className={`btn ${path === "/projects" ? "btn-success" : "btn-gray-200"} m-2`}>Projeler
+                                  className={`btn ${path === "/projects" ? "btn-danger" : "btn-info"} m-2`}>Projeler
                             </Link>
                             {
-                                //<Link to="/text" className={`btn ${path === "/text" ? "btn-success" : "btn-gray-200"} m-2`}>Yazılar</Link>
+                                //<Link to="/text" className={`btn ${path === "/text" ? "btn-danger" : "btn-info"} m-2`}>Yazılar</Link>
                             }
                         </div>
 

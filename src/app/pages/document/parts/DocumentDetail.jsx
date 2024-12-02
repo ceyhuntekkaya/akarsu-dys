@@ -31,7 +31,7 @@ const tempDocument = {
 }
 
 export default function DocumentDetail(props) {
-    const {document, files} = props;
+    const {document, files, setUpdated} = props;
     const [values, setValues] = useState({...document})
     const [projects, setProjects] = useApi(null);
     const [staffs, setStaffs] = useApi(null);
@@ -117,7 +117,9 @@ export default function DocumentDetail(props) {
     const handleDocumentDelete = () => {
         setCrudOperations("deleteDocument", document.id).then(r =>
         NotificationManager.success("Evrak Silindi", "Başarılı", 3000)
+
         )
+        setUpdated(true);
     }
 
 
@@ -136,7 +138,7 @@ export default function DocumentDetail(props) {
         setCrudOperations("updateDocument", {id:document.id, document:values}).then(r =>
         NotificationManager.success("Evrak Güncellendi", "Başarılı", 3000)
         )
-
+        setUpdated(true);
     }
 
     const formatDateForInput = (epochMilliseconds) => {

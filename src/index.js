@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import AppContextProvider from "./context/AppContextProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/site.css";

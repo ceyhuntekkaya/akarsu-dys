@@ -16,6 +16,7 @@ export const useAuth = () => {
             "post",
             `${config.api.invokeUrl}/user/login`, params
         );
+        console.log(response)
         if (response) {
             setUserInformation(response)
             setResult(true);

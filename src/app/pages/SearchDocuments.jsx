@@ -31,14 +31,25 @@ export default function SearchDocuments(props) {
     const [searchProject, setSearchProject] = useApi(null);
     const [selectedDocument, setSelectedDocument] = useState(null);
     const [projects, setProjects] = useState([]);
-    const [tableHeight, setTableHeight] = useState('400px');
+    const [tableHeight, setTableHeight] = useState('200px');
     const [documentFiles, setDocumentFiles] = useApi(null);
     const [documentLogs, setDocumentLogs] = useApi(null);
+
+    const [updated, setUpdated] = useState(false);
+
+
+    useEffect(() => {
+       if(updated){
+           findEvents()
+           setUpdated(false)
+       }
+    }, [updated]);
+
 
     useEffect(() => {
         const calculateHeight = () => {
             const windowHeight = window.innerHeight;
-            const availableHeight = windowHeight - 600;
+            const availableHeight = windowHeight - 330;
             setTableHeight(`${availableHeight}px`);
         };
         calculateHeight();
@@ -71,8 +82,8 @@ export default function SearchDocuments(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDocument]);
 
-    const findEvents = (e) => {
-        e.preventDefault()
+    const findEvents = () => {
+
         const searchData = data;
         if (archive) {
             searchData.archive = true
@@ -84,22 +95,21 @@ export default function SearchDocuments(props) {
         setData({...data, [prop]: value})
     }
 
+
+    useEffect(() => {
+        if (data) {
+            findEvents()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
+
+
+
+
     const searchPanel = () => {
         return (
             <div className="card shadow mb-3">
                 <div className="card-body">
-                    <div className="row m-2">
-                        <div className="col">
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
-                                   value={data.beginAt}/>
-                        </div>
-                        <div className="col">
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
-                                   value={data.endAt}/>
-                        </div>
-                    </div>
                     <div className="row m-2">
 
                         <div className="col">
@@ -118,9 +128,37 @@ export default function SearchDocuments(props) {
                                 }
                             </select>
                         </div>
+
+                        <div className="col-auto" style={{width: "160px"}}>
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
+                                   value={data.beginAt}/>
+                        </div>
+                        <div className="col-auto" style={{width: "160px"}}>
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
+                                   value={data.endAt}/>
+                        </div>
+
+
+
+
                     </div>
                     <div className="row m-2">
+
+                        <div className="col-auto" style={{width: "360px"}}>
+                            <input className="form-control" type="text" placeholder="KONU"
+                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                                   value={data.subject}/>
+                        </div>
                         <div className="col">
+                            <input className="form-control" type="text" placeholder="ARANACAK KELİME"
+                                   onChange={(e) => onValueChangeEvent("searchWord", e.target.value)}
+                                   value={data.searchWord}/>
+                        </div>
+
+
+                        <div className="col-auto" style={{width: "160px"}}>
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("documentType", e.target.value)}>
                                 <option selected value="">Tip Seç</option>
@@ -137,7 +175,13 @@ export default function SearchDocuments(props) {
                                 }
                             </select>
                         </div>
-                        <div className="col">
+
+                        <div className="col-auto" style={{width: "160px"}}>
+                            <input className="form-control" type="text" placeholder="SAYI"
+                                   onChange={(e) => onValueChangeEvent("documentNumber", e.target.value)}
+                                   value={data.documentNumber}/>
+                        </div>
+                        <div className="col-auto">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("documentGroup", e.target.value)}>
                                 <option selected value="">Grup Seç</option>
@@ -154,26 +198,10 @@ export default function SearchDocuments(props) {
                                 }
                             </select>
                         </div>
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="SAYI"
-                                   onChange={(e) => onValueChangeEvent("documentNumber", e.target.value)}
-                                   value={data.documentNumber}/>
-                        </div>
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="KONU"
-                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
-                                   value={data.subject}/>
-                        </div>
-                    </div>
-                    <div className="row m-2">
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="ARANACAK KELİME"
-                                   onChange={(e) => onValueChangeEvent("searchWord", e.target.value)}
-                                   value={data.searchWord}/>
-                        </div>
+
 
                         <div className="col-auto">
-                            <button type="submit" className="btn btn-primary" onClick={(e) => findEvents(e)}>Ara
+                            <button type="submit" className="btn btn-primary" onClick={findEvents}>Ara
                             </button>
                         </div>
                     </div>
@@ -194,7 +222,7 @@ export default function SearchDocuments(props) {
                             <div className="row">
                                 <div className="col-8 p-1">
                                     <div className="card shadow">
-                                        <h5 className="card-header">Evraklar</h5>
+
                                         <div className="card-body" style={{
                                             height: tableHeight, overflowY: 'auto'
                                         }}>
@@ -209,9 +237,9 @@ export default function SearchDocuments(props) {
                                     selectedDocument ?
                                         <div className="col-4 p-1">
                                             <div className="card shadow">
-                                                <h5 className="card-header">Evrak Detayları</h5>
+
                                                 <div className="card-body">
-                                                    <DocumentDetail data={{
+                                                    <DocumentDetail setUpdated={setUpdated} data={{
                                                         "document": selectedDocument,
                                                         "files": documentFiles,
                                                         "logs": documentLogs

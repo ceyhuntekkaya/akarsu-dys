@@ -6,7 +6,7 @@ import DocumentTransAction from "../../pages/document/parts/DocumentTransAction"
 
 
 export default function DocumentTabs(props) {
-    const {data, projects} = props;
+    const {data, projects, setUpdated} = props;
 
     const [page, setPage] = useState(0)
     return (
@@ -37,7 +37,7 @@ export default function DocumentTabs(props) {
                                                                            logs={data.logs}/></React.Fragment> :
                                     page === 1 ? <React.Fragment><DocumentLog logs={data.logs}/></React.Fragment> :
                                         page === 2 ?
-                                            <React.Fragment><DocumentDetail document={data.document} projects={projects}
+                                            <React.Fragment><DocumentDetail setUpdated={setUpdated} document={data.document} projects={projects}
                                                                             files={data.files}/></React.Fragment> :
                                             page === 3 ? <React.Fragment><DocumentTransAction document={data.document}/></React.Fragment> : null
                                 : null
