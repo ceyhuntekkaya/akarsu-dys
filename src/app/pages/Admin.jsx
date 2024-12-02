@@ -36,6 +36,7 @@ export default function Admin() {
 
 
     useEffect(() => {
+
         setStaffs("staff", 0).then(r => null)
 
         const calculateHeight = () => {
@@ -49,19 +50,18 @@ export default function Admin() {
     }, []);
 
 
-    useEffect(() => {
-        if(selectedStaff){
-            setAuthority("getAuthority", selectedStaff.id).then(r => null)
-        }
-    }, [selectedStaff]);
 
 
     const eventHandler = (e, staff) => {
         e.preventDefault()
+
         setSelectedStaff(staff)
+        setAuthority("getAuthority", staff.id).then(r => null)
     };
 
     const makeAuthorize = (value) => {
+
+
         if (value === 0) {
             return "Personel"
         }
@@ -75,6 +75,7 @@ export default function Admin() {
     }
 
     const DataTable = () => {
+
         return (
             <div className="row">
                 <div className="table table-responsive table-hover">
@@ -111,18 +112,26 @@ export default function Admin() {
         )
     }
 
-    const onValueChangeEvent = (prop, value) => {
-        setSelectedStaff({...selectedStaff, [prop]: value})
+    const onValueChangeEvent = (prop, value, type = 'input') => {
+        if (type === 'select') {
+            setSelectedStaff({...selectedStaff, [prop]: value});
+            return;
+        }
+        const newValue = type === 'checkbox' ? !selectedStaff[prop] : value;
+        setSelectedStaff(prev => ({...prev, [prop]: newValue}));
     }
 
+
     const DetailForm = () => {
+
 
         return (
             <>
                 <div className="form-group">
                     <label htmlFor="exampleInputPassword1">PERSONEL</label>
-                    <input className="form-control" type="text" value={selectedStaff.name}
-                           onChange={(e) => onValueChangeEvent("name", e.target.value)}/>
+                    <input className="form-control" type="text"
+                           value={selectedStaff.name}
+                           onChange={e => onValueChangeEvent("name", e.target.value)}/>
                 </div>
                 <div className="row">
                     <div className="col">
@@ -195,6 +204,7 @@ export default function Admin() {
 
 
     const addAuthority = () => {
+
         if (selectedAuthority) {
             setAction("updateAuthority", {
                 userId: selectedStaff.id,
@@ -205,6 +215,7 @@ export default function Admin() {
     }
 
     const removeAuthority = () => {
+
         if (selectedAuthority) {
             setAction("updateAuthority", {
                 userId: selectedStaff.id,
@@ -234,7 +245,8 @@ export default function Admin() {
     }
 
     const makeAuthorityForm = (value) => {
-        if (value == true) return "Yetkili"
+
+        if (value === true) return "Yetkili"
         else return "-"
     }
 
@@ -322,7 +334,10 @@ export default function Admin() {
                 <div className="card shadow">
                     <h5 className="card-header">Personel Bilgi Fişi</h5>
                     <div className="card-body">
-                        <DetailForm/>
+                        {
+                            DetailForm()
+                        }
+
                     </div>
 
                 </div>

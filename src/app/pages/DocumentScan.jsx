@@ -122,12 +122,15 @@ export default function DocumentScan() {
     const handleSaveEvent = () => {
 
         let params = data;
-        params.documentDate = Math.floor(new Date(data.documentDate).getTime() / 1000)
+        //params.documentDate = Math.floor(new Date(data.documentDate).getTime() / 1000)
         params.recordBy = {id: Number(userInformation?.id)}
         params.project.id = Number(data.project.id)
         params.authorizationLevel = Number(data.authorizationLevel)
 
         params.owner = {id: Number(data.owner.id)}
+
+
+        // ceyhun
 
         const fileList = []
         // eslint-disable-next-line array-callback-return
@@ -142,6 +145,27 @@ export default function DocumentScan() {
 
     };
 
+
+    const onDateValueChangeEvent = (prop, value) => {
+        try {
+            const selectedDate = new Date(value);
+            const epochMilliseconds = selectedDate.getTime();
+
+            if (!isNaN(epochMilliseconds)) {
+                setData({...data, [prop]: epochMilliseconds});
+            }
+        } catch (e) {
+            console.error("Error converting date:", e);
+        }
+    }
+    const formatDateForInput = (epochMilliseconds) => {
+        if (!epochMilliseconds) return '';
+
+        const date = new Date(epochMilliseconds);
+        return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+    };
+
+
     const searchPanel = () => {
         return (
 
@@ -150,8 +174,8 @@ export default function DocumentScan() {
                     <div className="row m-2">
                         <div className="col-auto">
                             <input className="form-control" type="date"
-                                   onChange={(e) => onValueChangeEvent("documentDate", e.target.value)}
-                                   value={data.documentDate}/>
+                                   onChange={(e) => onDateValueChangeEvent("documentDate", e.target.value)}
+                                   value={formatDateForInput(data.documentDate)}/>
                         </div>
                         <div className="col">
                             <input className="form-control" type="text" placeholder="SAYI"

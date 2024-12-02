@@ -98,7 +98,6 @@ export default function DocumentDetail(props) {
         setValues({...values, [prop1]: {[prop2]: value}})
     }
     const onTimeValueChangeEvent = (value) => {
-        console.log(value)
         try{
             const date = new Date(value);
             const formattedDate = date.toLocaleDateString('en-EN', {
@@ -128,11 +127,9 @@ export default function DocumentDetail(props) {
 
     const handleDocumentPartDelete = (partId) => {
         setCrudOperations("deleteDocumentPart", partId).then(r => null)
-        console.log(partId)
     }
     const handleDocumentPartArchive = (partId) => {
         setCrudOperations("archiveDocumentPart", partId).then(r => null)
-        console.log(partId)
     }
 
     const handleDocumentUpdate = () => {

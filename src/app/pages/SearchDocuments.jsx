@@ -77,7 +77,6 @@ export default function SearchDocuments(props) {
         if (archive) {
             searchData.archive = true
         }
-        console.log(searchData)
         setSearchProject("searchProject", searchData).then(r => null)
     }
 

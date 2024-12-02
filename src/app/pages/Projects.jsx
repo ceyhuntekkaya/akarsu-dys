@@ -4,7 +4,6 @@ import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContextProvider";
 import {NotificationManager} from "react-notifications";
 
-
 const baseValue = {
     id: 0, name: "", description: "", archived: true, authorizationLevel: 0, createdBy: {
         id: 0
@@ -42,7 +41,7 @@ export default function Projects() {
 
     useEffect(() => {
         if (projectList === null) {
-            alert("Proje Listesi Yüklenemedi")
+
             setProjectList("findAllProject", userInformation?.authority).then(r => null)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
