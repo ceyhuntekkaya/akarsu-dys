@@ -60,13 +60,22 @@ export default function Header() {
                     >
 
                         <div className="d-flex align-items-center">
-                            <Link to="/"
-                                  className={`btn ${path === "/" ? "btn-danger" : "btn-info"} m-2 m-lg-0`}>Evraklarım</Link>
+                            {
+                                // <Link to="/" className={`btn ${path === "/" ? "btn-danger" : "btn-success"} m-2 m-lg-0`}>Evraklarım</Link>
+                            }
+
                             {
                                 auth && auth.fileSearch ?
                                     <Link to="/search"
-                                          className={`btn ${path === "/search" ? "btn-danger" : "btn-info"} m-2`}>Evrak
+                                          className={`btn ${path === "/search" ? "btn-danger" : "btn-success"} m-2`}>Evrak
                                         Arama</Link>
+                                    : null
+                            }
+                            {
+                                auth && auth.scan ?
+                                    <Link to="/document-scan"
+                                          className={`btn ${path === "/document-scan" ? "btn-danger" : "btn-info"} m-2`}>Evrak
+                                        Tarama</Link>
                                     : null
                             }
                             {
@@ -85,13 +94,7 @@ export default function Header() {
                             {
                                 //<Link to="/change-password" className={`btn ${path === "/change-password" ? "btn-danger" : "btn-info"} m-2`}>Şifre Değiştirme</Link>
                             }
-                            {
-                                auth && auth.scan ?
-                                    <Link to="/document-scan"
-                                          className={`btn ${path === "/document-scan" ? "btn-danger" : "btn-info"} m-2`}>Evrak
-                                        Tarama</Link>
-                                    : null
-                            }
+
                             <Link to="/projects"
                                   className={`btn ${path === "/projects" ? "btn-danger" : "btn-info"} m-2`}>Projeler
                             </Link>

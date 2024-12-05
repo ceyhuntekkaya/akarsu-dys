@@ -39,10 +39,10 @@ export default function SearchDocuments(props) {
 
 
     useEffect(() => {
-       if(updated){
-           findEvents()
-           setUpdated(false)
-       }
+        if (updated) {
+            findEvents()
+            setUpdated(false)
+        }
     }, [updated]);
 
 
@@ -64,8 +64,7 @@ export default function SearchDocuments(props) {
 
         if (archive) {
             setProjectList("findNonActiveProjects", userInformation?.authority).then(r => null)
-        }
-        else{
+        } else {
             setProjectList("findProjectByAuth", userInformation?.authority).then(r => null)
         }
 
@@ -98,12 +97,15 @@ export default function SearchDocuments(props) {
 
     useEffect(() => {
         if (data) {
-            findEvents()
+            if (data.subject === "" && data.searchWord === "") {
+                findEvents()
+            } else if (data.subject.length > 2 || data.searchWord.length > 2) {
+                findEvents()
+            }
+            //findEvents()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
-
-
 
 
     const searchPanel = () => {
@@ -142,18 +144,20 @@ export default function SearchDocuments(props) {
 
 
 
+                        {
+                            //<div className="col-auto" style={{width: "360px"}}>
+                           //     <input className="form-control" type="text" placeholder="KONU"
+                           //            onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                           //            value={data.subject}/>
+                          //  </div>
+                        }
 
-                    </div>
-                    <div className="row m-2">
-
-                        <div className="col-auto" style={{width: "360px"}}>
-                            <input className="form-control" type="text" placeholder="KONU"
-                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
-                                   value={data.subject}/>
-                        </div>
                         <div className="col">
                             <input className="form-control" type="text" placeholder="ARANACAK KELİME"
-                                   onChange={(e) => onValueChangeEvent("searchWord", e.target.value)}
+                                   onChange={(e) => {
+                                       onValueChangeEvent("searchWord", e.target.value);
+                                       onValueChangeEvent("subject", e.target.value)
+                                   }}
                                    value={data.searchWord}/>
                         </div>
 

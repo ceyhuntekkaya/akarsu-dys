@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     container_name: akarsu-dys
-    image: ctekkaya/akarsu-dys:3.0
+    image: ctekkaya/akarsu-dys:4.0
     build:
       context: .
       dockerfile: Dockerfile

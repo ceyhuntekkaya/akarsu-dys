@@ -117,11 +117,11 @@ export default function ActiveDocuments(props) {
                 <table className="table table-striped mb-0">
                     <thead>
                     <tr>
-                        <th scope="col" onClick={() => sortDataProject('name')}>Proje {getSortDirection('name')}</th>
+                        <th scope="col" style={{"width": "50%"}} onClick={() => sortDataProject('name')}>Proje {getSortDirection('name')}</th>
                         <th scope="col" onClick={() => sortData('documentDate')}>Tarih {getSortDirection('documentDate')}</th>
                         <th scope="col" onClick={() => sortData('number')}>Sayı {getSortDirection('number')}</th>
-                        <th scope="col" onClick={() => sortData('subject')}>Konu {getSortDirection('subject')}</th>
-                        <th scope="col" onClick={() => sortData('type')}>Tip {getSortDirection('type')}</th>
+                        <th scope="col" style={{"width": "30%"}} onClick={() => sortData('subject')}>Konu {getSortDirection('subject')}</th>
+                        <th scope="col" style={{"width": "1500px", "min-width": "150px"}} onClick={() => sortData('type')}>Tip {getSortDirection('type')}</th>
                     </tr>
                     </thead>
                     <tbody>

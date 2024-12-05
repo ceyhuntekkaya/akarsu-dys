@@ -2,10 +2,37 @@
 
 body {
     font-family: "Quicksand", "sans-serif", "modern";
+    font-weight: bold;
 }
 
+input {
+    font-weight: 700 !important; /* veya bold !important */
+}
 
+input::placeholder {
+    font-weight: 700 !important;
+}
 
+/* Select elementinin kendisini bold yapma */
+select {
+    font-weight: 700 !important; /* veya bold */
+    -webkit-font-weight: 700;
+    -moz-font-weight: 700;
+}
+
+/* Option'ları bold yapma */
+select option {
+    font-weight: 700 !important;
+    -webkit-font-weight: 700;
+    -moz-font-weight: 700;
+}
+
+/* Seçilen option'ı bold yapma */
+select option:checked {
+    font-weight: 700 !important;
+    -webkit-font-weight: 700;
+    -moz-font-weight: 700;
+}
 
 .datepicker {
     display: none

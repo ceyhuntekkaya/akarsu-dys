@@ -193,25 +193,7 @@ export default function DocumentScan() {
                                 }
                             </select>
                         </div>
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="KONU"
-                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
-                                   value={data.subject}/>
-                        </div>
 
-
-                    </div>
-                    <div className="row m-2">
-                        <div className="col">
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onDateValueChangeEvent("documentDate", e.target.value)}
-                                   value={formatDateForInput(data.documentDate)}/>
-                        </div>
-                        <div className="col">
-                            <input className="form-control" type="text" placeholder="SAYI"
-                                   onChange={(e) => onValueChangeEvent("number", e.target.value)}
-                                   value={data.number}/>
-                        </div>
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("type", e.target.value)}>
@@ -230,6 +212,18 @@ export default function DocumentScan() {
                             </select>
                         </div>
                         <div className="col">
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onDateValueChangeEvent("documentDate", e.target.value)}
+                                   value={formatDateForInput(data.documentDate)}/>
+                        </div>
+                        <div className="col">
+                            <input className="form-control" type="text" placeholder="SAYI"
+                                   onChange={(e) => onValueChangeEvent("number", e.target.value)}
+                                   value={data.number}/>
+                        </div>
+
+
+                        <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("group", e.target.value)}>
                                 <option selected value="">Grup Seç</option>
@@ -246,10 +240,6 @@ export default function DocumentScan() {
                                 }
                             </select>
                         </div>
-
-                        {
-                            //ceyhun
-                        }
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
@@ -278,6 +268,20 @@ export default function DocumentScan() {
                             </select>
                         </div>
 
+
+                    </div>
+                    <div className="row m-2">
+
+                        <div className="col">
+                            <input className="form-control" type="text" placeholder="KONU"
+                                   onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                                   value={data.subject}/>
+                        </div>
+                        {
+                            //ceyhun
+                        }
+
+
                         {
                             //ceyhun
                         }
@@ -303,7 +307,7 @@ export default function DocumentScan() {
                             <div className="row">
                                 <div className="col-8 p-1">
                                     <div className="card shadow">
-                                        <div className="card-header">
+                                    <div className="card-header">
                                             <div>
                                                 <input
                                                     type="file"
