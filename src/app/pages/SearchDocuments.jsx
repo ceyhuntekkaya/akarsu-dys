@@ -87,6 +87,7 @@ export default function SearchDocuments(props) {
         if (archive) {
             searchData.archive = true
         }
+        searchData.subject = searchData.searchWord
         setSearchProject("searchProject", searchData).then(r => null)
     }
 
@@ -131,32 +132,20 @@ export default function SearchDocuments(props) {
                             </select>
                         </div>
 
-                        <div className="col-auto" style={{width: "160px"}}>
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
-                                   value={data.beginAt}/>
-                        </div>
-                        <div className="col-auto" style={{width: "160px"}}>
-                            <input className="form-control" type="date"
-                                   onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
-                                   value={data.endAt}/>
-                        </div>
-
-
 
                         {
                             //<div className="col-auto" style={{width: "360px"}}>
-                           //     <input className="form-control" type="text" placeholder="KONU"
-                           //            onChange={(e) => onValueChangeEvent("subject", e.target.value)}
-                           //            value={data.subject}/>
-                          //  </div>
+                            //     <input className="form-control" type="text" placeholder="KONU"
+                            //            onChange={(e) => onValueChangeEvent("subject", e.target.value)}
+                            //            value={data.subject}/>
+                            //  </div>
                         }
 
                         <div className="col">
                             <input className="form-control" type="text" placeholder="ARANACAK KELİME"
                                    onChange={(e) => {
-                                       onValueChangeEvent("searchWord", e.target.value);
-                                       onValueChangeEvent("subject", e.target.value)
+                                       onValueChangeEvent("searchWord", e.target.value)
+
                                    }}
                                    value={data.searchWord}/>
                         </div>
@@ -185,6 +174,19 @@ export default function SearchDocuments(props) {
                                    onChange={(e) => onValueChangeEvent("documentNumber", e.target.value)}
                                    value={data.documentNumber}/>
                         </div>
+
+                        <div className="col-auto" style={{width: "160px"}}>
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onValueChangeEvent("beginAt", e.target.value)}
+                                   value={data.beginAt}/>
+                        </div>
+                        <div className="col-auto" style={{width: "160px"}}>
+                            <input className="form-control" type="date"
+                                   onChange={(e) => onValueChangeEvent("endAt", e.target.value)}
+                                   value={data.endAt}/>
+                        </div>
+
+
                         <div className="col-auto">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("documentGroup", e.target.value)}>

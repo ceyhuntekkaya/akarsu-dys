@@ -172,15 +172,13 @@ export default function DocumentScan() {
 
     const searchPanel = () => {
         return (
-
             <div className="card shadow">
-                <div className="card-body">
+                <div className="card-body" key={"123332222"}>
                     <div className="row m-2">
-
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onObjectValueChangeEvent("project", "id", e.target.value)}>
-                                <option selected value={0}>Proje Seç</option>
+                                <option value={0}>Proje Seç</option>
                                 {
                                     projectList ? projectList.map((project, index) => {
                                         return (
@@ -193,7 +191,6 @@ export default function DocumentScan() {
                                 }
                             </select>
                         </div>
-
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("type", e.target.value)}>
@@ -221,8 +218,6 @@ export default function DocumentScan() {
                                    onChange={(e) => onValueChangeEvent("number", e.target.value)}
                                    value={data.number}/>
                         </div>
-
-
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onValueChangeEvent("group", e.target.value)}>
@@ -234,7 +229,6 @@ export default function DocumentScan() {
                                                 <option selected key={index}
                                                         value={group.name}>{group.name}</option> :
                                                 <option key={index} value={group.name}>{group.name}</option>
-
                                         )
                                     }) : null
                                 }
@@ -243,7 +237,7 @@ export default function DocumentScan() {
                         <div className="col">
                             <select className="form-control"
                                     onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
-                                <option selected value={0}>Sorumlu Seç</option>
+                                <option value={0}>Sorumlu Seç</option>
                                 {
                                     staffs ? staffs.map((staff, index) => {
                                         return (
@@ -263,12 +257,8 @@ export default function DocumentScan() {
                                 <option value="1">Proje Personeli</option>
                                 <option value="2">Proje Koordinatörü</option>
                                 <option value="3">Yönetim</option>
-
-
                             </select>
                         </div>
-
-
                     </div>
                     <div className="row m-2">
 
@@ -277,15 +267,6 @@ export default function DocumentScan() {
                                    onChange={(e) => onValueChangeEvent("subject", e.target.value)}
                                    value={data.subject}/>
                         </div>
-                        {
-                            //ceyhun
-                        }
-
-
-                        {
-                            //ceyhun
-                        }
-
                         <div className="col-auto">
                             <button className="btn btn-success" onClick={handleSaveEvent}>EVRAK KAYDET</button>
                         </div>
@@ -300,7 +281,6 @@ export default function DocumentScan() {
                 <div className="mask align-items-center h-100">
                     <div className="row justify-content-center">
                         <div className="row">
-
                             {
                                 searchPanel()
                             }
@@ -336,7 +316,6 @@ export default function DocumentScan() {
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Yüklenecek Dosyalar</th>
-
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -350,22 +329,17 @@ export default function DocumentScan() {
                                                                         </tr>
                                                                     )
                                                                 })
-
-
                                                                 : null
                                                         }
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-4 p-1">
                                     <div className="card shadow">
-
                                         <div className="card-body">
                                             <DocumentDetail data={{
                                                 "document": null,
@@ -377,13 +351,10 @@ export default function DocumentScan() {
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     )
 }
