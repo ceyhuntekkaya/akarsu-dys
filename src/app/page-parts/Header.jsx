@@ -67,28 +67,28 @@ export default function Header() {
                             {
                                 auth && auth.fileSearch ?
                                     <Link to="/search"
-                                          className={`btn ${path === "/search" ? "btn-danger" : "btn-success"} m-2`}>Evrak
+                                          className={`btn ${path === "/search" ? "btn-danger" : "border-2 text-dark bg-white btn-success"} m-2`}>Evrak
                                         Arama</Link>
                                     : null
                             }
                             {
                                 auth && auth.scan ?
                                     <Link to="/document-scan"
-                                          className={`btn ${path === "/document-scan" ? "btn-danger" : "btn-info"} m-2`}>Evrak
+                                          className={`btn ${path === "/document-scan" ? "btn-danger" : "border-2 text-dark bg-white btn-info"} m-2`}>Evrak
                                         Tarama</Link>
                                     : null
                             }
                             {
                                 auth && auth.archive ?
                                     <Link to="/archive"
-                                          className={`btn ${path === "/archive" ? "btn-danger" : "btn-info"} m-2`}>Arşiv</Link>
+                                          className={`btn ${path === "/archive" ? "btn-danger" : "border-2 text-dark bg-white btn-info"} m-2`}>Arşiv</Link>
 
                                     : null
                             }
                             {
                                 auth && auth.admin ?
                                     <Link to="/admin"
-                                          className={`btn ${path === "/admin" ? "btn-danger" : "btn-info"} m-2`}>Yönetim</Link>
+                                          className={`btn ${path === "/admin" ? "btn-danger" : "border-2 text-dark bg-white btn-info"} m-2`}>Yönetim</Link>
                                     : null
                             }
                             {
@@ -96,7 +96,7 @@ export default function Header() {
                             }
 
                             <Link to="/projects"
-                                  className={`btn ${path === "/projects" ? "btn-danger" : "btn-info"} m-2`}>Projeler
+                                  className={`btn ${path === "/projects" ? "btn-danger" : "border-2 text-dark bg-white btn-info"} m-2`}>Projeler
                             </Link>
                             {
                                 //<Link to="/text" className={`btn ${path === "/text" ? "btn-danger" : "btn-info"} m-2`}>Yazılar</Link>

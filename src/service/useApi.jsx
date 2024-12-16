@@ -126,10 +126,6 @@ export const useApi = () => {
         }
     };
 
-
-
-
-
     const getTransactions = async (documentId) => {
         const response = await Request(
             "get",
@@ -166,12 +162,47 @@ export const useApi = () => {
 
 
     const saveDocument = async (document) => {
-        const response = await Request(
-            "post",
-            `${config.api.invokeUrl}/document/`,document
-        );
-        if (response) {
-            setResult(response);
+        try {
+            const response = await Request(
+                "post",
+                `${config.api.invokeUrl}/document/`,
+                document
+            );
+            if (response) {
+                setResult(response);
+                return true; // Başarılı durumda true döndür
+            }
+        } catch (error) {
+            // Hata durumunda yapılacak işlemler
+            console.error("Belge kaydedilirken hata oluştu:", error);
+
+            // Hata türüne göre özel işlemler
+            if (error.response) {
+                // Sunucudan gelen hata yanıtı
+                switch (error.response.status) {
+                    case 400:
+                        // Geçersiz istek hatası
+                        console.error("Geçersiz belge formatı");
+                        break;
+                    case 401:
+                        // Yetkilendirme hatası
+                        console.error("Oturum süresi dolmuş olabilir. Lütfen tekrar giriş yapın");
+                        break;
+                    case 500:
+                        // Sunucu hatası
+                        console.error("Sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin");
+                        break;
+                    default:
+                        console.error("Beklenmeyen bir hata oluştu");
+                }
+            } else if (error.request) {
+                // Sunucuya ulaşılamadı
+                console.error("Sunucuya bağlanılamıyor. İnternet bağlantınızı kontrol edin");
+            } else {
+                // İstek oluşturulurken hata
+                console.error("İstek oluşturulurken bir hata meydana geldi");
+            }
+            return false; // Hata durumunda false döndür
         }
     };
 

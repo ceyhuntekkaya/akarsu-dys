@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import DocumentDetail from "./parts/DocumentTabs";
 import * as React from "react";
 import {useApi} from "../../service/useApi";
@@ -18,7 +18,7 @@ const baseValue = {
     owner: {
         id: 0,
     },
-    authorizationLevel: -1,
+    authorizationLevel: "",
 }
 
 
@@ -35,7 +35,8 @@ export default function DocumentScan() {
     const [groups, setGroups] = useApi(null);
     const [fileUploadStatus, setFileUploadStatus] = useState(null);
     const [tempFiles, setTempFiles] = useState([]);
-    const [saveDocument, setSaveDocuments] = useApi(null);
+    const [saveDocument, setSaveDocuments] = useApi({id:-1});
+    const fileInputRef = useRef(null);
 
 
     useEffect(() => {
@@ -103,12 +104,20 @@ export default function DocumentScan() {
             "document": params,
             "files": fileList
         }
+
+//saveDocument
         if (validation()) {
-            setSaveDocuments("saveDocument", parameters).then(r =>
-                NotificationManager.success("Evrak Kaydedildi", "Başarılı", 3000))
-            clearFormData()
+            setSaveDocuments("saveDocument", parameters);
         }
     };
+
+
+    useEffect(() => {
+        if (saveDocument !== null) {
+            NotificationManager.success("Evrak Kaydedildi", "Başarılı", 3000)
+            clearFormData()
+        }
+    }, [saveDocument]);
 
 
     const onDateValueChangeEvent = (prop, value) => {
@@ -165,8 +174,12 @@ export default function DocumentScan() {
     }
 
     const clearFormData = () => {
-        setData({...baseValue})
-        setTempFiles([])
+        setData({...baseValue});
+        setTempFiles([]);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+        setUploadFile(null);
     }
 
 
@@ -177,6 +190,7 @@ export default function DocumentScan() {
                     <div className="row m-2">
                         <div className="col">
                             <select className="form-control"
+                                    value={data.project.id}
                                     onChange={(e) => onObjectValueChangeEvent("project", "id", e.target.value)}>
                                 <option value={0}>Proje Seç</option>
                                 {
@@ -193,6 +207,7 @@ export default function DocumentScan() {
                         </div>
                         <div className="col">
                             <select className="form-control"
+                                    value={data.type}
                                     onChange={(e) => onValueChangeEvent("type", e.target.value)}>
                                 <option selected value="">Tip Seç</option>
                                 {
@@ -236,6 +251,7 @@ export default function DocumentScan() {
                         </div>
                         <div className="col">
                             <select className="form-control"
+                                    value={data.owner.id}
                                     onChange={(e) => onObjectValueChangeEvent("owner", "id", e.target.value)}>
                                 <option value={0}>Sorumlu Seç</option>
                                 {
@@ -287,9 +303,10 @@ export default function DocumentScan() {
                             <div className="row">
                                 <div className="col-8 p-1">
                                     <div className="card shadow">
-                                    <div className="card-header">
+                                        <div className="card-header">
                                             <div>
                                                 <input
+                                                    ref={fileInputRef}
                                                     type="file"
                                                     multiple={false}
                                                     accept=".pdf"

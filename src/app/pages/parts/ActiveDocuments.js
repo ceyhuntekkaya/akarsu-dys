@@ -109,6 +109,14 @@ export default function ActiveDocuments(props) {
         setDocuments(sortedData);
     };
 
+
+    const changeTypeName = (key) => {
+if(key === "GELEN EVRAK"){
+    return "GELEN"
+}
+return "GİDEN"
+    }
+
     return (
 
         <div className="row">
@@ -116,12 +124,12 @@ export default function ActiveDocuments(props) {
             <div className="table table-responsive table-hover">
                 <table className="table table-striped mb-0">
                     <thead>
-                    <tr>
-                        <th scope="col" style={{"width": "50%", fontSize:"14px"}} onClick={() => sortDataProject('name')}>Proje {getSortDirection('name')}</th>
-                        <th scope="col" style={{fontSize:"14px"}} onClick={() => sortData('documentDate')}>Tarih {getSortDirection('documentDate')}</th>
-                        <th scope="col" style={{fontSize:"14px"}} onClick={() => sortData('number')}>Sayı {getSortDirection('number')}</th>
-                        <th scope="col" style={{"width": "30%", fontSize:"14px"}} onClick={() => sortData('subject')}>Konu {getSortDirection('subject')}</th>
-                        <th scope="col" style={{"width": "1500px", "min-width": "150px", fontSize:"14px"}} onClick={() => sortData('type')}>Tip {getSortDirection('type')}</th>
+                    <tr style={{backgroundColor:"lightgreen"}}>
+                        <th scope="col" style={{fontSize:"14px"}} onClick={() => sortDataProject('name')}>Proje {getSortDirection('name')}</th>
+                        <th scope="col" style={{fontSize:"14px", width:"110px"}} onClick={() => sortData('documentDate')}>Tarih {getSortDirection('documentDate')}</th>
+                        <th scope="col" style={{width:"110px"}} onClick={() => sortData('number')}>Sayı {getSortDirection('number')}</th>
+                        <th scope="col" style={{fontSize:"14px"}} onClick={() => sortData('subject')}>Konu {getSortDirection('subject')}</th>
+                        <th scope="col no-wrap" style={{whiteSpace:"nowrap", fontSize:"14px"}} onClick={() => sortData('type')}>Tip {getSortDirection('type')}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -134,10 +142,10 @@ export default function ActiveDocuments(props) {
                                                 style={{backgroundColor: selectedDocument && selectedDocument.document ? selectedDocument.document?.id === doc.document?.id ? "#999" : "" : ""}}
                                                 onClick={(e) => eventHandler(doc)}>
                                                 <th scope="row">{doc.document?.project?.name}</th>
-                                                <td>{new Date(doc.document?.documentDate).toLocaleDateString("tr")}</td>
-                                                <td>{doc.document?.number}</td>
+                                                <td className="" style={{width:"110px"}}>{new Date(doc.document?.documentDate).toLocaleDateString("tr")}</td>
+                                                <td className="" style={{width:"110px"}}>SAYI: {doc.document?.number}</td>
                                                 <td>{doc.document?.subject}</td>
-                                                <td>{doc.document?.type}</td>
+                                                <td className="no-wrap">{changeTypeName(doc.document?.type)}</td>
                                             </tr>
                                     )
                                 })
@@ -151,10 +159,10 @@ export default function ActiveDocuments(props) {
                                                 style={{backgroundColor: selectedDocument ? selectedDocument?.id === doc?.id ? "#ddd" : "" : ""}}
                                                 onClick={(e) => eventHandler(doc)}>
                                                 <th scope="row">{doc?.project?.name}</th>
-                                                <td>{new Date(doc?.documentDate).toLocaleDateString("tr")}</td>
-                                                <td>{doc?.number}</td>
+                                                <td className="no-wrap">{new Date(doc?.documentDate).toLocaleDateString("tr")}</td>
+                                                <td className="no-wrap">{doc?.number}</td>
                                                 <td>{doc?.subject}</td>
-                                                <td>{doc?.type}</td>
+                                                <td className="no-wrap">{changeTypeName(doc?.type)}</td>
                                             </tr>
                                     )
                                 })

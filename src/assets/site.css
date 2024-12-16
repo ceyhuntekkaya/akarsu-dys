@@ -5,6 +5,10 @@ body {
     font-weight: bold;
 }
 
+.no-wrap {
+    white-space: nowrap !important;
+}
+
 input {
     font-weight: 700 !important; /* veya bold !important */
 }

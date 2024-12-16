@@ -16,7 +16,7 @@ export const adminRoutes = [
     path: "/",
     name: "main",
     icon: IconDashboard,
-    component: MyDocuments,
+    component: SearchDocuments,
     menu: true,
     sort: 1,
     sidePanelVisible: true,

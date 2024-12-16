@@ -3,7 +3,6 @@ import {Routes, Route, Navigate} from "react-router-dom";
 import {adminRoutes, loginRoutes} from "./config/route";
 import NoMatch from "./app/general/NoMatch";
 import Header from "./app/page-parts/Header";
-import Footer from "./app/page-parts/Footer";
 import {HashLoader} from "react-spinners";
 import {AppContext} from "./context/AppContextProvider";
 import {UserContext} from "./context/UserContextProvider";
